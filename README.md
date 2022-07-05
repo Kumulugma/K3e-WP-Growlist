@@ -18,6 +18,8 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.0.2b
+- Znacznik zdjęcia na liście roślin.
 
 0.0.2a
 - Shortocy i interface administracyjny.
