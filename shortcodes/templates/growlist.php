@@ -45,7 +45,16 @@
                             <tr>
                                 <th scope="row"><?= $i ?></th>
                                 <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></td>
-                                <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_the_title() ?> <?= get_post_meta(get_the_ID(), "species_name", true) ?></a></td>
+                                <td>
+                                    <a href="<?= get_permalink(get_the_ID()) ?>">
+                                        <?= get_the_title() ?> <?= get_post_meta(get_the_ID(), "species_name", true) ?>
+                                        <?php $photos = explode(",", unserialize(get_post_meta(get_the_ID(), "species_photos", true))) ?>
+
+                                        <?php if (count($photos) > 1) { ?>
+                                            <i class="far fa-images"></i> x  <?= count($photos) - 1 ?>
+                                        <?php } ?>
+                                    </a>
+                                </td>
                                 <td><?= get_post_meta(get_the_ID(), "species_comment", true) ?></td>
                                 <td><?php foreach (get_the_terms($species->get_the_ID(), 'volume') as $volume) { ?>
                                         <?= $volume->name ?> 
