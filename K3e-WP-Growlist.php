@@ -27,6 +27,7 @@ function k3e_growlist_plugin_init() {
     require_once 'shortcodes/wishlist.php';
     require_once 'shortcodes/spare.php';
     require_once 'shortcodes/seeds.php';
+    require_once 'shortcodes/sows.php';
 }
 
 function k3e_growlist_plugin_activate() {

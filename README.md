@@ -18,6 +18,9 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.0.4a
+- Dodano listę wysiewów + shortcode.
+
 0.0.3a
 - Zmiana obsługi stanu rośliny.
 
