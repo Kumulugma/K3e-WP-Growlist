@@ -14,6 +14,9 @@
         <?php
         $args = array(
             'post_type' => 'species',
+            'posts_per_page' => -1,
+            'order' => 'ASC',
+            'orderby' => 'title',
             'tax_query' => array(
                 array(
                     'taxonomy' => 'groups',

@@ -18,6 +18,9 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.0.3a
+- Zmiana obsługi stanu rośliny.
+
 0.0.2b
 - Znacznik zdjęcia na liście roślin.
 

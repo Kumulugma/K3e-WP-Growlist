@@ -12,6 +12,7 @@
                     $args = array(
                         'post_type' => 'species',
                         'order' => 'ASC',
+                        'posts_per_page' => -1
                     );
 
                     $species = new WP_Query($args);
@@ -43,7 +44,27 @@
                                                 <?= $group->name ?> 
                                             <?php } ?>
                                         </td>
-                                        <td><?= get_post_meta(get_the_ID(), 'species_state', true) ?></span></td>
+                                        <td>
+                                            <?php
+                                            switch (get_post_meta(get_the_ID(), 'species_state', true)) {
+                                                case 1:
+                                                    echo __('Ok','k3e');
+                                                    break;
+                                                case 2:
+                                                    echo __('Wysiew','k3e');
+                                                    break;
+                                                case 3:
+                                                    echo __('Leci','k3e');
+                                                    break;
+                                                case 4:
+                                                    echo __('Nie przetrwał','k3e');
+                                                    break;
+                                                case 5:
+                                                    echo __('Ponownie poszukiwany','k3e');
+                                                    break;
+                                            }
+                                            ?>
+                                        </td>
                                         <td><?= get_post_meta(get_the_ID(), 'species_comment', true) ?></td>
                                         <td>
                                             <?php foreach (get_the_terms(get_the_ID(), 'provider') as $provider) { ?>

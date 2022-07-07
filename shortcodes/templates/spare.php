@@ -2,6 +2,8 @@
 $args = array(
     'post_type' => 'species',
     'order' => 'ASC',
+    'orderby' => 'title',
+    'posts_per_page' => -1,
     'meta_query' => array(
         array(
             'key' => 'species_spare',
