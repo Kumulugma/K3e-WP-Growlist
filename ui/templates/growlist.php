@@ -12,6 +12,7 @@
                     $args = array(
                         'post_type' => 'species',
                         'order' => 'ASC',
+                        'orderby' => 'title',
                         'posts_per_page' => -1
                     );
 
@@ -20,15 +21,15 @@
                     <table id="growlist" class="display" style="width:100%" data-counter="<?= $species->found_posts ?>">
                         <thead>
                             <tr>
-                                <th style="text-align: left;">Lp.</th>
-                                <th style="text-align: left;">Kod</th>
-                                <th style="text-align: left;">Nazwa</th>
-                                <th style="text-align: left;">Grupa</th>
-                                <th style="text-align: left;">Stan</th>
-                                <th style="text-align: left;">Komentarz</th>
-                                <th style="text-align: left;">Pochodzenie</th>
-                                <th style="text-align: left;">Rok</th>
-                                <th style="text-align: left;">Zdjęcia</th>
+                                <th style="text-align: left;"><?= __('Lp.', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Kod', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Nazwa', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Grupa', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Stan', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Komentarz', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Pochodzenie', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Rok', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Zdjęcia', 'k3e') ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,19 +49,19 @@
                                             <?php
                                             switch (get_post_meta(get_the_ID(), 'species_state', true)) {
                                                 case 1:
-                                                    echo __('Ok','k3e');
+                                                    echo __('Ok', 'k3e');
                                                     break;
                                                 case 2:
-                                                    echo __('Wysiew','k3e');
+                                                    echo __('Wysiew', 'k3e');
                                                     break;
                                                 case 3:
-                                                    echo __('Leci','k3e');
+                                                    echo __('Leci', 'k3e');
                                                     break;
                                                 case 4:
-                                                    echo __('Nie przetrwał','k3e');
+                                                    echo __('Nie przetrwał', 'k3e');
                                                     break;
                                                 case 5:
-                                                    echo __('Ponownie poszukiwany','k3e');
+                                                    echo __('Ponownie poszukiwany', 'k3e');
                                                     break;
                                             }
                                             ?>
@@ -87,20 +88,20 @@
                                     <?php $i++; ?>
                                 <?php endwhile; ?>
                             <?php } else { ?>
-                            <td colspan="9" style="text-align: center;">Brak danych</td>
+                            <td colspan="9" style="text-align: center;"><?= __('Brak wspisów', 'k3e') ?></td>
                         <?php } ?>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="text-align: left;">Lp.</th>
-                                <th style="text-align: left;">Kod</th>
-                                <th style="text-align: left;">Nazwa</th>
-                                <th style="text-align: left;">Grupa</th>
-                                <th style="text-align: left;">Stan</th>
-                                <th style="text-align: left;">Komentarz</th>
-                                <th style="text-align: left;">Pochodzenie</th>
-                                <th style="text-align: left;">Rok</th>
-                                <th style="text-align: left;">Zdjęcia</th>
+                                <th style="text-align: left;"><?= __('Lp.', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Kod', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Nazwa', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Grupa', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Stan', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Komentarz', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Pochodzenie', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Rok', 'k3e') ?></th>
+                                <th style="text-align: left;"><?= __('Zdjęcia', 'k3e') ?></th>
                             </tr>
                         </tfoot>
                     </table>

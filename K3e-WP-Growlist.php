@@ -20,6 +20,9 @@ function k3e_growlist_plugin_init() {
     if (current_user_can('manage_options')) {
         if (is_admin()) {
             require_once 'ui/admin.php';
+            require_once 'widgets/GrowlistWidget.php';
+            require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
+            GrowlistWidget::run();
             Growlist::run();
         }
     }

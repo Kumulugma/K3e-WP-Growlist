@@ -29,6 +29,6 @@ if ($post_images) {
 </div>
 <input type="hidden" name="species_photos" value="<?php echo esc_attr($post_images_input); ?>" id="post-images" class="regular-text" />
 <div style="display: block">
-    <input type='button' class="button-primary" value="<?php esc_attr_e('Wybierz obrazek', 'k3e'); ?>" id="post_media_manager" style="margin-left: 5px;"/>
+    <input type='button' class="button-primary" value="<?php esc_attr_e('Wybierz obrazki', 'k3e'); ?>" id="post_media_manager" style="margin-left: 5px;"/>
     <input type='button' class="button-secondary" value="<?php esc_attr_e('Usuń obrazki', 'k3e'); ?>" id="post_media_remover"/>
 </div>

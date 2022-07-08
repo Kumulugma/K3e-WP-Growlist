@@ -18,6 +18,11 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.0.5a
+- Widgety w panelu administracyjnym.
+- Generator PDF z listą roślin.
+- Pomniejsze poprawki.
+
 0.0.4a
 - Dodano listę wysiewów + shortcode.
 

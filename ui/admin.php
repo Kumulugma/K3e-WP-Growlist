@@ -47,6 +47,33 @@ class Growlist {
                     8
             );
 
+            add_submenu_page(
+                    'growlist',
+                    __('Statystyki', 'k3e'),
+                    __('Statystyki', 'k3e'),
+                    'manage_options',
+                    'growlist_stats',
+                    'growlist_stats_content'
+            );
+
+            add_submenu_page(
+                    'growlist',
+                    __('Eksport danych', 'k3e'),
+                    __('Eksport danych', 'k3e'),
+                    'manage_options',
+                    'growlist_export',
+                    'growlist_export_content'
+            );
+
+            add_submenu_page(
+                    'growlist',
+                    __('PDF', 'k3e'),
+                    __('PDF', 'k3e'),
+                    'manage_options',
+                    'growlist_pdf',
+                    'growlist_pdf_content'
+            );
+
             /* Dostępne pozycje
               2 – Dashboard
               4 – Separator
@@ -70,6 +97,7 @@ class Growlist {
         Growlist::GrowlistSpare();
         Growlist::GrowlistSeeds();
         Growlist::Wishlist();
+        Growlist::GeneratePDF();
 
         function growlist_content() {
 
@@ -92,6 +120,21 @@ class Growlist {
         function wishlist_content() {
 
             include plugin_dir_path(__FILE__) . 'templates/wishlist.php';
+        }
+
+        function growlist_stats_content() {
+
+            include plugin_dir_path(__FILE__) . 'templates/growlist/stats.php';
+        }
+
+        function growlist_export_content() {
+
+            include plugin_dir_path(__FILE__) . 'templates/growlist/export.php';
+        }
+
+        function growlist_pdf_content() {
+
+            include plugin_dir_path(__FILE__) . 'templates/growlist/pdf.php';
         }
 
     }
@@ -272,6 +315,62 @@ class Growlist {
         if (isset($_POST['Growlist'])) {
             $wishlist = htmlentities($_POST['Growlist']['wishlist']);
             update_option('wishlist', serialize($wishlist));
+            wp_redirect('admin.php?page=' . $_GET['page']);
+        }
+    }
+
+    public static function GeneratePDF() {
+        if (isset($_POST['Growlist']['PDF'])) {
+            $growlist = [];
+            $args = array(
+                'post_type' => 'species',
+                'order' => 'ASC',
+                'orderby' => 'title',
+                'posts_per_page' => -1
+            );
+
+            $species = new WP_Query($args);
+            if ($species->have_posts()) {
+                $i = 1;
+                while ($species->have_posts()) : $species->the_post();
+                    $growlist[$i]['i'] = $i;
+                    $growlist[$i]['code'] = get_post_meta(get_the_ID(), 'species_code', true) ?: '';
+                    $growlist[$i]['name'] = get_the_title();
+                    $growlist[$i]['mininame'] = get_post_meta(get_the_ID(), 'species_name', true);
+                    $groups = "";
+                    foreach (get_the_terms(get_the_ID(), 'groups') as $group) {
+                        $groups .= $group->name . " ";
+                    }
+                    $growlist[$i]['group'] = $groups;
+                    switch (get_post_meta(get_the_ID(), 'species_state', true)) {
+                        case 1:
+                            $growlist[$i]['state'] = __('Ok', 'k3e');
+                            break;
+                        case 2:
+                            $growlist[$i]['state'] = __('Wysiew', 'k3e');
+                            break;
+                        case 3:
+                            $growlist[$i]['state'] = __('Leci', 'k3e');
+                            break;
+                        case 4:
+                            $growlist[$i]['state'] = __('Nie przetrwał', 'k3e');
+                            break;
+                        case 5:
+                            $growlist[$i]['state'] = __('Ponownie poszukiwany', 'k3e');
+                            break;
+                    }
+                    $growlist[$i]['comment'] = get_post_meta(get_the_ID(), 'species_comment', true) ?: '';
+
+                    $post_images = explode(",", unserialize(get_post_meta(get_the_ID(), "species_photos", true)));
+                    $growlist[$i]['images'] = count($post_images) - 1;
+                    $growlist[$i]['thumbnail'] = has_post_thumbnail(get_the_ID());
+                    $i++;
+                endwhile;
+            }
+            update_option('_pdf_growlist', json_encode($growlist));
+
+            include plugin_dir_path(__FILE__) . 'templates/growlist/document_pdf.php';
+
             wp_redirect('admin.php?page=' . $_GET['page']);
         }
     }
