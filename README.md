@@ -10,6 +10,9 @@ Uwzględnione funkcjonalności:
 * Taksonomia: Grupa
 * Taksonomia: Dostawca
 * Taksonomia: Rocznik
+* Widget: Lista nasion
+* Widget: Wysiane
+* Widget: W drodze
 
 ------------------
 ## Informacje dodatkowe
@@ -18,6 +21,10 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.1.0a
+- Zmiana struktury.
+- Dodatkowe grupowanie w pdf z listą.
+
 0.0.5a
 - Widgety w panelu administracyjnym.
 - Generator PDF z listą roślin.

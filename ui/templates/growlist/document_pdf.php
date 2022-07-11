@@ -15,7 +15,7 @@ $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor($current_user->display_name);
 $pdf->SetTitle($filename);
 $pdf->SetSubject(__('Lista roślin', 'k3e'));
-$pdf->SetKeywords(__('lista, rośliny, growslit, plants', 'k3e'));
+$pdf->SetKeywords(__('lista, rośliny, growlist, plants', 'k3e'));
 
 // set default header data
 $pdf->SetHeaderData(null, null, $filename, null, array(0, 64, 255), array(0, 64, 128));
@@ -88,69 +88,10 @@ foreach ($growlist as $k => $item) {
     $content .= '<td style="width: 13%;">' . $item->state . '</td>';
     $content .= '<td style="width: 20%;"><small>' . $item->comment . '</small></td>';
     $content .= '<td style="width: 7%;">' . ($item->thumbnail == '1' ? 'Tak' : '---') . '</td>';
-    $content .= '<td style="width: 10%;">' . $item->photo . '</td>';
+    $content .= '<td style="width: 10%;">' . $item->images . '</td>';
     $content .= '</tr>';
 }
 
-//$args = array(
-//    'post_type' => 'species',
-//    'order' => 'ASC',
-//    'posts_per_page' => -1
-//);
-//
-//$species = new WP_Query($args);
-//if ($species->have_posts()) {
-//    $i = 1;
-//    while ($species->have_posts()) : $species->the_post();
-//
-//        $content .= '<tr>';
-//        $content .= '<td>' . $i . '</td>';
-//        $content .= '<td>' . $species->get_the_ID() . get_post_meta(get_the_ID(), 'species_code', true) ?: '' . '</td>';
-//        $content .= '<td>' . get_the_title() . '<small>' . get_post_meta(get_the_ID(), 'species_name', true) . '</small></td>';
-//        $content .= '<td>';
-//        foreach (get_the_terms(get_the_ID(), 'groups') as $group) {
-//            $content .= $group->name . " ";
-//        }
-//        $content .= '</td>';
-//        $content .= '<td>';
-//        switch (get_post_meta(get_the_ID(), 'species_state', true)) {
-//            case 1:
-//                echo __('Ok', 'k3e');
-//                break;
-//            case 2:
-//                echo __('Wysiew', 'k3e');
-//                break;
-//            case 3:
-//                echo __('Leci', 'k3e');
-//                break;
-//            case 4:
-//                echo __('Nie przetrwał', 'k3e');
-//                break;
-//            case 5:
-//                echo __('Ponownie poszukiwany', 'k3e');
-//                break;
-//        }
-//        $content .= '</td>';
-//        $content .= '<td>' . get_post_meta(get_the_ID(), 'species_comment', true) ?: '' . '</td>';
-//
-////        $content .= '<td>';
-////        foreach (get_the_terms(get_the_ID(), 'provider') as $provider) {
-////            $content .= $provider->name . " ";
-////        }
-////        $content .= '</td>';
-////        $content .= '<td>';
-////        foreach (get_the_terms(get_the_ID(), 'volume') as $volume) {
-////            $content .= $volume->name . " ";
-////        }
-////        $content .= '</td>';
-//        $content .= '<td>';
-//        $post_images = explode(",", unserialize(get_post_meta(get_the_ID(), "species_photos", true)));
-//        echo count($post_images) - 1;
-//        $content .= '</td>';
-//        $content .= '</tr>';
-//        $i++;
-//    endwhile;
-//}
 
 $content .= '</table>';
 // Set some content to print

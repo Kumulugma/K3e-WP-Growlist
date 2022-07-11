@@ -50,7 +50,7 @@
 
                         $files = new WP_Query($args);
                         ?>
-                        <table id="growlist" class="display" style="width:100%" data-counter="<?= $species->found_posts ?>">
+                        <table id="growlist" class="display" style="width:100%" data-counter="<?= $files->found_posts ?>">
                             <thead>
                                 <tr>
                                     <th style="text-align: left;"><?= __('Lp.', 'k3e') ?></th>
@@ -68,7 +68,7 @@
                                         <?php $i++; ?>
                                     <?php endwhile; ?>
                                 <?php } else { ?>
-                                <td colspan="9" style="text-align: center;"><?= __('Brak wspisów', 'k3e') ?></td>
+                                <td colspan="2" style="text-align: center;"><?= __('Brak wspisów', 'k3e') ?></td>
                             <?php } ?>
                             </tbody>
                             <tfoot>

@@ -3,12 +3,12 @@
 /*
   Plugin name: K3e - Lista roślin
   Plugin URI:
-  Description: Obsługa listy roślin.
+  Description: Obsługa funkcjonalności listy roślin.
   Author: K3e
   Author URI: https://www.k3e.pl/
   Text Domain:
   Domain Path:
-  Version: 0.0.1a
+  Version: 0.1.0a
  */
 require_once 'cpt/species.php';
 require_once 'cpt/plugin_taxonomy.php';
@@ -17,20 +17,28 @@ add_action('init', 'k3e_growlist_plugin_init');
 
 function k3e_growlist_plugin_init() {
     do_action('k3e_growlist_plugin_init');
-    if (current_user_can('manage_options')) {
-        if (is_admin()) {
-            require_once 'ui/admin.php';
-            require_once 'widgets/GrowlistWidget.php';
-            require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
-            GrowlistWidget::run();
-            Growlist::run();
-        }
+
+    require_once 'ui/UIClassGrowlist.php';
+    require_once 'ui/UIClassGrowlistAdmin.php';
+    require_once 'ui/UIClassGrowlistFront.php';
+    require_once 'ui/UIFunctions.php';
+
+    UIClassGrowlist::init();
+
+    if (is_admin()) {
+        require_once 'widgets/GrowlistWidget.php';
+        require_once(plugin_dir_path(__FILE__) . '/vendor/autoload.php');
+        GrowlistWidget::run();
+
+        UIClassGrowlistAdmin::run();
+    } else {
+        UIClassGrowlistFront::run();
+        require_once 'shortcodes/growlist.php';
+        require_once 'shortcodes/wishlist.php';
+        require_once 'shortcodes/spare.php';
+        require_once 'shortcodes/seeds.php';
+        require_once 'shortcodes/sows.php';
     }
-    require_once 'shortcodes/growlist.php';
-    require_once 'shortcodes/wishlist.php';
-    require_once 'shortcodes/spare.php';
-    require_once 'shortcodes/seeds.php';
-    require_once 'shortcodes/sows.php';
 }
 
 function k3e_growlist_plugin_activate() {

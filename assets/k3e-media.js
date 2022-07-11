@@ -26,6 +26,9 @@ jQuery(document).ready(function ($) {
                 gallery_ids[my_index] = attachment['id'];
                 my_index++;
             });
+            if (gallery_ids[0] == "") {
+                gallery_ids.shift();
+            }
             var ids = gallery_ids.join(",");
             if (ids.length === 0)
                 return true;//if closed withput selecting an image
@@ -64,13 +67,9 @@ jQuery(document).ready(function ($) {
 // Ajax request to refresh the image preview
 function Refresh_Image(the_id) {
     var data = {
-        action: 'myprefix_get_image',
+        action: 'postimage_get_files',
         id: the_id
     };
-
-//    jQuery.each(the_id.split(","), function (index, value) {
-//        alert(index + ": " + value);
-//    });
 
     jQuery.get(ajaxurl, data, function (response) {
 
@@ -79,9 +78,6 @@ function Refresh_Image(the_id) {
             jQuery.each(response.data.images, function (index, value) {
                 jQuery('#images-box').append(value);
             });
-            console.log(response.data.images);
-            console.log(jQuery('#post-images'));
-//            jQuery('#myprefix-preview-image').replaceWith(response.data.image);
         }
     });
 }

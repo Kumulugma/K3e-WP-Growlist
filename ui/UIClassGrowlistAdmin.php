@@ -1,6 +1,6 @@
 <?php
 
-class Growlist {
+class UIClassGrowlistAdmin {
 
     public static function run() {
 
@@ -92,28 +92,28 @@ class Growlist {
              */
         }
 
-        Growlist::GrowlistBox();
-        Growlist::GrowlistPhotos();
-        Growlist::GrowlistSpare();
-        Growlist::GrowlistSeeds();
-        Growlist::Wishlist();
-        Growlist::GeneratePDF();
+        UIClassGrowlistAdmin::GrowlistBox();
+        UIClassGrowlistAdmin::GrowlistPhotos();
+        UIClassGrowlistAdmin::GrowlistSpare();
+        UIClassGrowlistAdmin::GrowlistSeeds();
+        UIClassGrowlistAdmin::Wishlist();
+        UIClassGrowlistAdmin::GeneratePDF();
 
         function growlist_content() {
 
-            Growlist::List();
+            UIClassGrowlistAdmin::List();
             include plugin_dir_path(__FILE__) . 'templates/growlist.php';
         }
 
         function spare_content() {
 
-            Growlist::List();
+            UIClassGrowlistAdmin::List();
             include plugin_dir_path(__FILE__) . 'templates/spare.php';
         }
 
         function seedlist_content() {
 
-            Growlist::List();
+            UIClassGrowlistAdmin::List();
             include plugin_dir_path(__FILE__) . 'templates/seedlist.php';
         }
 
@@ -206,16 +206,6 @@ class Growlist {
             ];
             foreach ($fields as $field) {
                 if (array_key_exists($field, $_POST)) {
-//                    $photos = explode(",", $_POST[$field]);
-//                    foreach ($photos as $photo) {
-//                        $args = [
-//                            'post_parent' => $post_id,
-//                            'post_mime_type' => 'image/jpeg',
-//                            'post_type' => 'attachment',
-//                            'post_status' => 'inherit'
-//                        ];
-//                        wp_insert_post($args);
-//                    }
                     update_post_meta($post_id, $field, serialize(sanitize_text_field($_POST[$field])));
                 }
             }
@@ -223,13 +213,12 @@ class Growlist {
 
         add_action('save_post', 'k3e_growlist_photos_save_meta_box');
 
-        add_action('wp_ajax_myprefix_get_image', 'myprefix_get_image');
+        add_action('wp_ajax_postimage_get_files', 'postimage_get_files');
 
-        function myprefix_get_image() {
+        function postimage_get_files() {
             if (isset($_GET['id'])) {
 
                 $ids = explode(",", $_GET['id']);
-                array_shift($ids);
                 $images = [];
 
                 foreach ($ids as $id) {
@@ -322,50 +311,61 @@ class Growlist {
     public static function GeneratePDF() {
         if (isset($_POST['Growlist']['PDF'])) {
             $growlist = [];
-            $args = array(
-                'post_type' => 'species',
-                'order' => 'ASC',
-                'orderby' => 'title',
-                'posts_per_page' => -1
-            );
 
-            $species = new WP_Query($args);
-            if ($species->have_posts()) {
-                $i = 1;
-                while ($species->have_posts()) : $species->the_post();
-                    $growlist[$i]['i'] = $i;
-                    $growlist[$i]['code'] = get_post_meta(get_the_ID(), 'species_code', true) ?: '';
-                    $growlist[$i]['name'] = get_the_title();
-                    $growlist[$i]['mininame'] = get_post_meta(get_the_ID(), 'species_name', true);
-                    $groups = "";
-                    foreach (get_the_terms(get_the_ID(), 'groups') as $group) {
-                        $groups .= $group->name . " ";
-                    }
-                    $growlist[$i]['group'] = $groups;
-                    switch (get_post_meta(get_the_ID(), 'species_state', true)) {
-                        case 1:
-                            $growlist[$i]['state'] = __('Ok', 'k3e');
-                            break;
-                        case 2:
-                            $growlist[$i]['state'] = __('Wysiew', 'k3e');
-                            break;
-                        case 3:
-                            $growlist[$i]['state'] = __('Leci', 'k3e');
-                            break;
-                        case 4:
-                            $growlist[$i]['state'] = __('Nie przetrwał', 'k3e');
-                            break;
-                        case 5:
-                            $growlist[$i]['state'] = __('Ponownie poszukiwany', 'k3e');
-                            break;
-                    }
-                    $growlist[$i]['comment'] = get_post_meta(get_the_ID(), 'species_comment', true) ?: '';
+            $i = 1;
+            foreach (get_terms('groups', array('hide_empty' => false,)) as $group) {
 
-                    $post_images = explode(",", unserialize(get_post_meta(get_the_ID(), "species_photos", true)));
-                    $growlist[$i]['images'] = count($post_images) - 1;
-                    $growlist[$i]['thumbnail'] = has_post_thumbnail(get_the_ID());
-                    $i++;
-                endwhile;
+                $args = array(
+                    'post_type' => 'species',
+                    'order' => 'ASC',
+                    'orderby' => 'title',
+                    'posts_per_page' => -1,
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'groups',
+                            'field' => 'slug',
+                            'terms' => $group->slug
+                        )
+                    )
+                );
+
+                $species = new WP_Query($args);
+                if ($species->have_posts()) {
+                    while ($species->have_posts()) : $species->the_post();
+                        $growlist[$i]['i'] = $i;
+                        $growlist[$i]['code'] = get_post_meta(get_the_ID(), 'species_code', true) ?: '';
+                        $growlist[$i]['name'] = get_the_title();
+                        $growlist[$i]['mininame'] = get_post_meta(get_the_ID(), 'species_name', true);
+                        $groups = "";
+                        foreach (get_the_terms(get_the_ID(), 'groups') as $group) {
+                            $groups .= $group->name . " ";
+                        }
+                        $growlist[$i]['group'] = $groups;
+                        switch (get_post_meta(get_the_ID(), 'species_state', true)) {
+                            case 1:
+                                $growlist[$i]['state'] = __('Ok', 'k3e');
+                                break;
+                            case 2:
+                                $growlist[$i]['state'] = __('Wysiew', 'k3e');
+                                break;
+                            case 3:
+                                $growlist[$i]['state'] = __('Leci', 'k3e');
+                                break;
+                            case 4:
+                                $growlist[$i]['state'] = __('Nie przetrwał', 'k3e');
+                                break;
+                            case 5:
+                                $growlist[$i]['state'] = __('Ponownie poszukiwany', 'k3e');
+                                break;
+                        }
+                        $growlist[$i]['comment'] = get_post_meta(get_the_ID(), 'species_comment', true) ?: '';
+
+                        $post_images = explode(",", unserialize(get_post_meta(get_the_ID(), "species_photos", true)));
+                        $growlist[$i]['images'] = count($post_images) - 1;
+                        $growlist[$i]['thumbnail'] = has_post_thumbnail(get_the_ID());
+                        $i++;
+                    endwhile;
+                }
             }
             update_option('_pdf_growlist', json_encode($growlist));
 
