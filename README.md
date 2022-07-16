@@ -21,6 +21,9 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.1.1a
+- Dodanie skróconej nazwy na szybką listę okazów.
+
 0.1.0a
 - Zmiana struktury.
 - Dodatkowe grupowanie w pdf z listą.

@@ -99,6 +99,8 @@ class UIClassGrowlistAdmin {
         UIClassGrowlistAdmin::Wishlist();
         UIClassGrowlistAdmin::GeneratePDF();
 
+        UIClassGrowlistAdmin::AlterTableList();
+
         function growlist_content() {
 
             UIClassGrowlistAdmin::List();
@@ -372,6 +374,39 @@ class UIClassGrowlistAdmin {
             include plugin_dir_path(__FILE__) . 'templates/growlist/document_pdf.php';
 
             wp_redirect('admin.php?page=' . $_GET['page']);
+        }
+    }
+
+    public static function AlterTableList() {
+        add_filter('manage_species_posts_columns', 'rename_first_column');
+
+        function rename_first_column($columns) {
+            foreach ($columns as $k => $column) {
+                if ($column == 'Tytuł') {
+                    $columns[$k] = __('Nazwa', 'k3e');
+                }
+            }
+            return $columns;
+        }
+
+        add_filter('manage_species_posts_columns', 'add_new_columns');
+
+        function add_new_columns($columns) {
+            $column_meta = array('species_name' => __('Dalsza nazwa', 'k3e'));
+            $columns = array_slice($columns, 0, 2, true) + $column_meta + array_slice($columns, 2, NULL, true);
+            return $columns;
+        }
+
+        add_action('manage_species_posts_custom_column', 'custom_species_columns');
+
+        function custom_species_columns($column) {
+            global $post;
+            switch ($column) {
+                case 'species_name':
+                    $metaData = get_post_meta($post->ID, 'species_name', true);
+                    echo $metaData;
+                    break;
+            }
         }
     }
 
