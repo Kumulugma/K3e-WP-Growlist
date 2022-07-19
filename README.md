@@ -21,6 +21,9 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.1.1b
+- Poprawka do wyliczania ilości zdjęć na liście.
+
 0.1.1a
 - Dodanie skróconej nazwy na szybką listę okazów.
 

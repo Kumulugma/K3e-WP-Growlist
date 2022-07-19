@@ -61,8 +61,8 @@
                                         <?= get_the_title() ?> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small>
                                         <?php $photos = explode(",", unserialize(get_post_meta(get_the_ID(), "species_photos", true))) ?>
 
-                                        <?php if (count($photos) > 1) { ?>
-                                            <i class="far fa-images"></i> x  <?= count($photos) - 1 ?>
+                                        <?php if (count($photos) > 0 && $photos[0] != "") { ?>
+                                            <i class="far fa-images"></i> x  <?= count($photos) ?>
                                         <?php } ?>
                                     </a>
                                 </td>
