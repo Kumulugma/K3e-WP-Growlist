@@ -8,7 +8,7 @@
   Author URI: https://www.k3e.pl/
   Text Domain:
   Domain Path:
-  Version: 0.1.0a
+  Version: 0.1.3a
  */
 require_once 'cpt/species.php';
 require_once 'cpt/plugin_taxonomy.php';
@@ -38,6 +38,7 @@ function k3e_growlist_plugin_init() {
         require_once 'shortcodes/spare.php';
         require_once 'shortcodes/seeds.php';
         require_once 'shortcodes/sows.php';
+        require_once 'shortcodes/gallery.php';
     }
 }
 

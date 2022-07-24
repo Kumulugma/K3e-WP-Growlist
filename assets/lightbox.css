@@ -1,0 +1,14 @@
+.photo-grid img {
+    box-shadow:0px 3px 4px #dcdcdc;
+    border-radius: 6px;
+    /* 
+    * Change this to try different borders
+    */
+    border:6px solid #FFF;
+}
+.photo-grid{
+    /* 
+     * Change this to set the spacing of the images in the grid
+     */
+    padding:10px;
+}

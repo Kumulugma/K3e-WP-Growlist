@@ -21,6 +21,9 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.1.3a
+- Shortcode dla galerii w gatunku.
+
 0.1.2a
 - Poprawki wizualne.
 
