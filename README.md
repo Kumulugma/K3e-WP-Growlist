@@ -21,6 +21,9 @@ Obsługa listy roślin.
 
 ------------------
 ## Wersje
+0.1.2a
+- Poprawki wizualne.
+
 0.1.1b
 - Poprawka do wyliczania ilości zdjęć na liście.
 

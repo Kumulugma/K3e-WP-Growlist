@@ -21,7 +21,6 @@ $args = array(
             <th scope="col"><?= __('Gatunek', 'k3e') ?></th>
             <th scope="col"><?= __('Komentarz', 'k3e') ?></th>
             <th scope="col"><?= __('Ilość nasion', 'k3e') ?></th>
-            <th scope="col"><?= __('Cena', 'k3e') ?></th>
         </tr>
     </thead>
     <tbody>
@@ -34,11 +33,10 @@ $args = array(
 
                 <tr>
                     <th scope="row"><?= $i ?></th>
-                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></td>
-                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_the_title() ?> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small></a></td>
-                    <td><?= get_post_meta(get_the_ID(), "species_comment", true) ?></td>
-                    <td><?= get_post_meta(get_the_ID(), "species_seeds_amount", true) ?: '---' ?>/<?= __('pakiet', 'k3e') ?></td>
-                    <td><?= get_post_meta(get_the_ID(), "species_seeds_price", true) ?>PLN</td>
+                    <td><small><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></small></td>
+                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><small><?= get_the_title() ?></small> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small></a></td>
+                    <td><small><?= get_post_meta(get_the_ID(), "species_comment", true) ?></small></td>
+                    <td><small><?= get_post_meta(get_the_ID(), "species_seeds_amount", true) ?: '---' ?>/<?= __('pakiet', 'k3e') ?></small></td>
                 </tr>
                 <?php
                 $i++;

@@ -55,10 +55,10 @@
 
                             <tr>
                                 <th scope="row"><?= $i ?></th>
-                                <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></td>
+                                <td><small><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></small></td>
                                 <td>
                                     <a href="<?= get_permalink(get_the_ID()) ?>">
-                                        <?= get_the_title() ?> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small>
+                                        <small><?= get_the_title() ?></small> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small>
                                         <?php $photos = explode(",", unserialize(get_post_meta(get_the_ID(), "species_photos", true))) ?>
 
                                         <?php if (count($photos) > 0 && $photos[0] != "") { ?>
@@ -66,10 +66,10 @@
                                         <?php } ?>
                                     </a>
                                 </td>
-                                <td><?= get_post_meta(get_the_ID(), "species_comment", true) ?></td>
-                                <td><?php foreach (get_the_terms($species->get_the_ID(), 'volume') as $volume) { ?>
+                                <td><small><?= get_post_meta(get_the_ID(), "species_comment", true) ?></small></td>
+                                <td><small><?php foreach (get_the_terms($species->get_the_ID(), 'volume') as $volume) { ?>
                                         <?= $volume->name ?> 
-                                    <?php } ?>
+                                    <?php } ?></small>
                                 </td>
                             </tr>
                             <?php

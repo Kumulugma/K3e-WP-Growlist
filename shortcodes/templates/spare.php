@@ -33,9 +33,9 @@ $args = array(
 
                 <tr>
                     <th scope="row"><?= $i ?></th>
-                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></td>
-                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_the_title() ?> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small></a></td>
-                    <td><?= get_post_meta(get_the_ID(), "species_comment", true) ?></td>
+                    <td><small><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></small></td>
+                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><small><?= get_the_title() ?></small> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small></a></td>
+                    <td><small><?= get_post_meta(get_the_ID(), "species_comment", true) ?></small></td>
                     <td><?= get_post_meta(get_the_ID(), "species_spare_price", true) ?>PLN</td>
                 </tr>
                 <?php

@@ -32,9 +32,9 @@ $args = array(
 
                 <tr>
                     <th scope="row"><?= $i ?></th>
-                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></td>
-                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_the_title() ?> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small></a></td>
-                    <td><?= get_post_meta(get_the_ID(), "species_comment", true) ?></td>
+                    <td><small><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></small></td>
+                    <td><a href="<?= get_permalink(get_the_ID()) ?>"><small><?= get_the_title() ?></small> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small></a></td>
+                    <td><small><?= get_post_meta(get_the_ID(), "species_comment", true) ?></small></td>
                 </tr>
                 <?php
                 $i++;
@@ -42,7 +42,7 @@ $args = array(
         else:
             ?>
             <tr>
-                <th colspan="5" class="text-center"><?= __('Lista jest pusta', 'k3e') ?></th>
+                <th colspan="4" class="text-center"><?= __('Lista jest pusta', 'k3e') ?></th>
             </tr>
         <?php
         endif;
