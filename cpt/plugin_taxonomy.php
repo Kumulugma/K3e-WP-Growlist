@@ -85,39 +85,39 @@ add_action('init', 'provider', 0);
 // Register Custom Taxonomy
 function volume() {
 
-	$labels = array(
-		'name'                       => _x( 'Roczniki', 'Taxonomy General Name', 'k3e' ),
-		'singular_name'              => _x( 'Rocznik', 'Taxonomy Singular Name', 'k3e' ),
-		'menu_name'                  => __( 'Roczniki', 'k3e' ),
-		'all_items'                  => __( 'Wszystkie roczniki', 'k3e' ),
-		'parent_item'                => __( 'rocznik nadrzędny', 'k3e' ),
-		'parent_item_colon'          => __( 'rocznik nadrzędny:', 'k3e' ),
-		'new_item_name'              => __( 'Nazwa nowego rocznika', 'k3e' ),
-		'add_new_item'               => __( 'Dodaj nowy rocznik', 'k3e' ),
-		'edit_item'                  => __( 'Edytuj rocznik', 'k3e' ),
-		'update_item'                => __( 'Aktualizuj rocznik', 'k3e' ),
-		'view_item'                  => __( 'Zobacz rocznik', 'k3e' ),
-		'separate_items_with_commas' => __( 'Oddziel roczniki przecinkami', 'k3e' ),
-		'add_or_remove_items'        => __( 'Dodaj lub usuń rocznik', 'k3e' ),
-		'choose_from_most_used'      => __( 'Wybierz z najczęściej używanych', 'k3e' ),
-		'popular_items'              => __( 'Popularne roczniki', 'k3e' ),
-		'search_items'               => __( 'Szukaj rocznika', 'k3e' ),
-		'not_found'                  => __( 'Brak roczników', 'k3e' ),
-		'no_terms'                   => __( 'Brak roczników', 'k3e' ),
-		'items_list'                 => __( 'Lista roczników', 'k3e' ),
-		'items_list_navigation'      => __( 'Lista roczników', 'k3e' ),
-	);
-	$args = array(
-		'labels'                     => $labels,
-		'hierarchical'               => true,
-		'public'                     => true,
-		'show_ui'                    => true,
-		'show_admin_column'          => true,
-		'show_in_nav_menus'          => true,
-		'show_tagcloud'              => true,
-		'show_in_rest'               => false,
-	);
-	register_taxonomy( 'volume', array( 'species' ), $args );
-
+    $labels = array(
+        'name' => _x('Roczniki', 'Taxonomy General Name', 'k3e'),
+        'singular_name' => _x('Rocznik', 'Taxonomy Singular Name', 'k3e'),
+        'menu_name' => __('Roczniki', 'k3e'),
+        'all_items' => __('Wszystkie roczniki', 'k3e'),
+        'parent_item' => __('rocznik nadrzędny', 'k3e'),
+        'parent_item_colon' => __('rocznik nadrzędny:', 'k3e'),
+        'new_item_name' => __('Nazwa nowego rocznika', 'k3e'),
+        'add_new_item' => __('Dodaj nowy rocznik', 'k3e'),
+        'edit_item' => __('Edytuj rocznik', 'k3e'),
+        'update_item' => __('Aktualizuj rocznik', 'k3e'),
+        'view_item' => __('Zobacz rocznik', 'k3e'),
+        'separate_items_with_commas' => __('Oddziel roczniki przecinkami', 'k3e'),
+        'add_or_remove_items' => __('Dodaj lub usuń rocznik', 'k3e'),
+        'choose_from_most_used' => __('Wybierz z najczęściej używanych', 'k3e'),
+        'popular_items' => __('Popularne roczniki', 'k3e'),
+        'search_items' => __('Szukaj rocznika', 'k3e'),
+        'not_found' => __('Brak roczników', 'k3e'),
+        'no_terms' => __('Brak roczników', 'k3e'),
+        'items_list' => __('Lista roczników', 'k3e'),
+        'items_list_navigation' => __('Lista roczników', 'k3e'),
+    );
+    $args = array(
+        'labels' => $labels,
+        'hierarchical' => true,
+        'public' => true,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_tagcloud' => true,
+        'show_in_rest' => false,
+    );
+    register_taxonomy('volume', array('species'), $args);
 }
-add_action( 'init', 'volume', 0 );
+
+add_action('init', 'volume', 0);

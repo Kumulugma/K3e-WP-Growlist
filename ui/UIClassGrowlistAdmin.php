@@ -98,6 +98,7 @@ class UIClassGrowlistAdmin {
         UIClassGrowlistAdmin::GrowlistSeeds();
         UIClassGrowlistAdmin::Wishlist();
         UIClassGrowlistAdmin::GeneratePDF();
+        UIClassGrowlistAdmin::IconInTaxonomy();
 
         UIClassGrowlistAdmin::AlterTableList();
 
@@ -170,11 +171,15 @@ class UIClassGrowlistAdmin {
                 'species_name',
                 'species_state',
                 'species_comment',
+                'species_own',
             ];
             foreach ($fields as $field) {
                 if (array_key_exists($field, $_POST)) {
                     update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
                 }
+            }
+            if (!isset($_POST['species_own'])) {
+                update_post_meta($post_id, 'species_own', 0);
             }
         }
 
@@ -394,6 +399,8 @@ class UIClassGrowlistAdmin {
         function add_new_columns($columns) {
             $column_meta = array('species_name' => __('Dalsza nazwa', 'k3e'));
             $columns = array_slice($columns, 0, 2, true) + $column_meta + array_slice($columns, 2, NULL, true);
+            $column_meta = array('species_state' => __('Status okazu', 'k3e'));
+            $columns = array_slice($columns, 0, 2, true) + $column_meta + array_slice($columns, 2, NULL, true);
             return $columns;
         }
 
@@ -406,8 +413,71 @@ class UIClassGrowlistAdmin {
                     $metaData = get_post_meta($post->ID, 'species_name', true);
                     echo $metaData;
                     break;
+                case 'species_state':
+                    $metaData = get_post_meta($post->ID, 'species_state', true);
+                    switch ($metaData) {
+                        case '1':
+                            echo __('Ok', 'k3e');
+                            break;
+                        case '2':
+                            echo __('Wysiew', 'k3e');
+                            break;
+                        case '3':
+                            echo __('Leci', 'k3e');
+                            break;
+                        case '4':
+                            echo __('Nie przetrwał', 'k3e');
+                            break;
+                        case '5':
+                            echo __('Ponownie poszukiwany', 'k3e');
+                            break;
+                    }
+                    break;
             }
         }
+
+    }
+
+    public static function IconInTaxonomy() {
+
+        add_action('groups_add_form_fields', 'groups_add_term_fields');
+
+        function groups_add_term_fields($taxonomy) {
+            include plugin_dir_path(__FILE__) . 'templates/taxonomy/add.php';
+        }
+
+        add_action('admin_enqueue_scripts', 'k3e_groups_js');
+
+        function k3e_groups_js() {
+
+            if (!did_action('wp_enqueue_media')) {
+                wp_enqueue_media();
+            }
+            wp_enqueue_script(
+                    'K3e-Groups',
+                    plugin_dir_url(__FILE__) . '../assets/k3e-groups.js',
+                    array('jquery')
+            );
+        }
+
+        add_action('groups_edit_form_fields', 'groups_edit_term_fields', 10, 2);
+
+        function groups_edit_term_fields($term, $taxonomy) {
+            include plugin_dir_path(__FILE__) . 'templates/taxonomy/edit.php';
+        }
+
+        add_action('created_groups', 'k3e_groups_save_term_fields');
+        add_action('edited_groups', 'k3e_groups_save_term_fields');
+
+        function k3e_groups_save_term_fields($term_id) {
+
+            update_term_meta(
+                    $term_id,
+                    'k3e_groups_img',
+                    absint($_POST['k3e_groups_img'])
+            );
+        }
+
     }
 
 }

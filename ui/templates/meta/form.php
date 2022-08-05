@@ -5,6 +5,7 @@ wp_nonce_field(basename(__FILE__), "meta-box-nonce");
 <?php $species_state = get_post_meta($object->ID, "species_state", true); ?>
 <?php $species_comment = get_post_meta($object->ID, "species_comment", true); ?>
 <?php $species_name = get_post_meta($object->ID, "species_name", true); ?>
+<?php $species_own = get_post_meta($object->ID, "species_own", true); ?>
 
 <div class="k3e_box">
     <style scoped>
@@ -39,6 +40,10 @@ wp_nonce_field(basename(__FILE__), "meta-box-nonce");
     <p class="meta-options k3e_field">
         <label for="k3e_species_comment"><?= __('Komentarz', 'k3e') ?></label>
         <textarea id="k3e_species_comment" name="species_comment"><?= $species_comment ?></textarea>
+    </p>
+    <p class="meta-options k3e_field">
+        <label for="k3e_species_own"><?= __('Unikat', 'k3e') ?></label>
+        <input id="k3e_species_own" type="checkbox" name="species_own" value='1' <?= ($species_own) ? 'checked' : '' ?>>
     </p>
 </div>
 
