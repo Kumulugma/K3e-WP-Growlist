@@ -310,7 +310,7 @@ class UIClassGrowlistAdmin {
 
     public static function Wishlist() {
         if (isset($_POST['Growlist'])) {
-            $wishlist = htmlentities($_POST['Growlist']['wishlist']);
+            $wishlist = ($_POST['Growlist']['wishlist']);
             update_option('wishlist', serialize($wishlist));
             wp_redirect('admin.php?page=' . $_GET['page']);
         }

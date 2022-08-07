@@ -1,5 +1,5 @@
 <?php $wishlist = unserialize(get_option('wishlist')); ?>
-<?= $wishlist ?>
+<?= ($wishlist) ?>
 
 <?php
 $args = array(

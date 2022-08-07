@@ -30,9 +30,16 @@
                                 <label for="k3e_wishlist"><?= __('Poszukiwane', 'k3e') ?></label>
                             </div>
                             <div class="meta-options k3e_field" style="display: block;">
-                                <textarea id="k3e_wishlist" name="Growlist[wishlist]" cols="240" rows="20"><?= $wishlist ?></textarea>
+                                <?php
+                                $args = [
+                                    'media_buttons' => false, // This setting removes the media button.
+                                    'textarea_name' => 'Growlist[wishlist]', // Set custom name.
+                                    'quicktags' => false, // Remove view as HTML button.
+                                ];
+                                wp_editor($wishlist, 'k3e_wishlist', $args);
+                                ?>
                             </div>
-                            <div  style="display: block;">
+                            <div  style="display: block; margin-top: 5px;">
                                 <button class="button button-primary" type="submit">Zapisz</button>
                             </div>
                         </form>

@@ -33,7 +33,6 @@
                                 <th style="text-align: left;"><?= __('Nazwa', 'k3e') ?></th>
                                 <th style="text-align: left;"><?= __('Grupa', 'k3e') ?></th>
                                 <th style="text-align: left;"><?= __('Komentarz', 'k3e') ?></th>
-                                <th style="text-align: left;"><?= __('Cena', 'k3e') ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,12 +49,11 @@
                                             <?php } ?>
                                         </td>
                                         <td><?= get_post_meta(get_the_ID(), 'species_comment', true) ?></td>
-                                        <td><?= get_post_meta(get_the_ID(), 'species_spare_price', true) ?></td>
                                     </tr>
                                     <?php $i++; ?>
                                 <?php endwhile; ?>
                             <?php } else { ?>
-                            <td colspan="9" style="text-align: center;"><?= __('Brak danych', 'k3e') ?></td>
+                            <td colspan="5" style="text-align: center;"><?= __('Brak danych', 'k3e') ?></td>
                         <?php } ?>
                         </tbody>
                         <tfoot>
@@ -65,7 +63,6 @@
                                 <th style="text-align: left;"><?= __('Nazwa', 'k3e') ?></th>
                                 <th style="text-align: left;"><?= __('Grupa', 'k3e') ?></th>
                                 <th style="text-align: left;"><?= __('Komentarz', 'k3e') ?></th>
-                                <th style="text-align: left;"><?= __('Cena', 'k3e') ?></th>
                             </tr>
                         </tfoot>
                     </table>
