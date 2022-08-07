@@ -63,7 +63,7 @@
                                     <?php while ($files->have_posts()) : $files->the_post(); ?>
                                         <tr>
                                             <td><?= $i ?></td>
-                                            <td><a href="<?= wp_get_attachment_url(get_the_ID()) ?>" style="text-decoration: none;"><?= get_the_title() ?> <?= get_post_meta(get_the_ID(), 'species_name', true) ?></a></td>
+                                            <td><a href="<?= wp_get_attachment_url(get_the_ID()) ?>" style="text-decoration: none;"><?= get_the_title() ?></a></td>
                                         </tr>
                                         <?php $i++; ?>
                                     <?php endwhile; ?>

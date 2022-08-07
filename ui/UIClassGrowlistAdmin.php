@@ -98,6 +98,7 @@ class UIClassGrowlistAdmin {
         UIClassGrowlistAdmin::GrowlistSeeds();
         UIClassGrowlistAdmin::Wishlist();
         UIClassGrowlistAdmin::GeneratePDF();
+        UIClassGrowlistAdmin::GenerateCSV();
         UIClassGrowlistAdmin::IconInTaxonomy();
 
         UIClassGrowlistAdmin::AlterTableList();
@@ -377,6 +378,73 @@ class UIClassGrowlistAdmin {
             update_option('_pdf_growlist', json_encode($growlist));
 
             include plugin_dir_path(__FILE__) . 'templates/growlist/document_pdf.php';
+
+            wp_redirect('admin.php?page=' . $_GET['page']);
+        }
+    }
+
+    public static function GenerateCSV() {
+        if (isset($_POST['Growlist']['CSV'])) {
+            $growlist = [];
+
+            $i = 1;
+            foreach (get_terms('groups', array('hide_empty' => false,)) as $group) {
+
+                $args = array(
+                    'post_type' => 'species',
+                    'order' => 'ASC',
+                    'orderby' => 'title',
+                    'posts_per_page' => -1,
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'groups',
+                            'field' => 'slug',
+                            'terms' => $group->slug
+                        )
+                    )
+                );
+
+                $species = new WP_Query($args);
+                if ($species->have_posts()) {
+                    while ($species->have_posts()) : $species->the_post();
+                        $growlist[$i]['i'] = $i;
+                        $growlist[$i]['code'] = get_post_meta(get_the_ID(), 'species_code', true) ?: '';
+                        $growlist[$i]['name'] = get_the_title();
+                        $growlist[$i]['mininame'] = get_post_meta(get_the_ID(), 'species_name', true);
+                        $groups = "";
+                        foreach (get_the_terms(get_the_ID(), 'groups') as $group) {
+                            $groups .= $group->name . " ";
+                        }
+                        $growlist[$i]['group'] = $groups;
+                        switch (get_post_meta(get_the_ID(), 'species_state', true)) {
+                            case 1:
+                                $growlist[$i]['state'] = __('Ok', 'k3e');
+                                break;
+                            case 2:
+                                $growlist[$i]['state'] = __('Wysiew', 'k3e');
+                                break;
+                            case 3:
+                                $growlist[$i]['state'] = __('Leci', 'k3e');
+                                break;
+                            case 4:
+                                $growlist[$i]['state'] = __('Nie przetrwał', 'k3e');
+                                break;
+                            case 5:
+                                $growlist[$i]['state'] = __('Ponownie poszukiwany', 'k3e');
+                                break;
+                        }
+                        $growlist[$i]['comment'] = get_post_meta(get_the_ID(), 'species_comment', true) ?: '';
+
+                        $post_images = explode(",", unserialize(get_post_meta(get_the_ID(), "species_photos", true)));
+                        $growlist[$i]['images'] = count($post_images) - 1;
+                        $growlist[$i]['thumbnail'] = has_post_thumbnail(get_the_ID());
+                        $i++;
+                    endwhile;
+                }
+            }
+            update_option('_csv_growlist', json_encode($growlist));
+
+            include plugin_dir_path(__FILE__) . 'templates/growlist/document_csv.php';
 
             wp_redirect('admin.php?page=' . $_GET['page']);
         }
