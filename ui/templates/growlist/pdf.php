@@ -21,11 +21,36 @@
                             }
                         </style>
                         <form method="post" action="admin.php?page=growlist_pdf&save=form">
-                            <p class="meta-options k3e_field">
-                                <label for="k3e_document_pdf_name"><?= __('Nazwa dokumentu', 'k3e') ?></label>
-                                <input id="k3e_document_pdf_name" type="text" name="Growlist[document_pdf_name]" value='<?= __('Lista roślin ', 'k3e') . date('Y-m-d H:i:s') ?>'>
-                            </p>
-                            <div  style="display: block;">
+                            <div>
+                                <p class="meta-options k3e_field">
+                                    <label for="k3e_document_pdf_name"><?= __('Nazwa dokumentu', 'k3e') ?></label>
+                                    <input id="k3e_document_pdf_name" type="text" name="Growlist[document_pdf_name]" value='<?= __('Lista roślin ', 'k3e') . date('Y-m-d H:i:s') ?>'>
+                                </p>   
+                            </div>
+                            <div>
+                                <h2><?= __('Status wpisów', 'k3e') ?></h2>
+                                <p class="meta-options k3e_field">
+                                    <input type="radio" id="k3e_labels_small" name="Growlist[species_status]" value="-1" checked>
+                                    <label for="k3e_labels_small"><?= __('Wszystkie', 'k3e') ?></label>
+                                    <br>
+                                    <input type="radio" id="k3e_labels_1" name="Growlist[species_status]" value="1">
+                                    <label for="k3e_labels_1"><?= __('Ok', 'k3e') ?></label>
+                                    <br>
+                                    <input type="radio" id="k3e_labels_2" name="Growlist[species_status]" value="2">
+                                    <label for="k3e_labels_2"><?= __('Wysiew', 'k3e') ?></label>
+                                    <br>
+                                    <input type="radio" id="k3e_labels_3" name="Growlist[species_status]" value="3">
+                                    <label for="k3e_labels_3"><?= __('Leci', 'k3e') ?></label>
+                                    <br>
+                                    <input type="radio" id="k3e_labels_4" name="Growlist[species_status]" value="4">
+                                    <label for="k3e_labels_4"><?= __('Nie przetrwał', 'k3e') ?></label>
+                                    <br>
+                                    <input type="radio" id="k3e_labels_5" name="Growlist[species_status]" value="5">
+                                    <label for="k3e_labels_5"><?= __('Ponownie poszukiwany', 'k3e') ?></label>
+
+                                </p>
+                            </div>
+                            <div  style="display: block; padding-top: 5px;">
                                 <input type='hidden' name="Growlist[PDF]" value="<?= md5(rand(0, 255)) ?>"/>
                                 <button class="button button-primary"  type="submit">Wygeneruj</button>
                             </div>

@@ -320,22 +320,51 @@ class UIClassGrowlistAdmin {
         if (isset($_POST['Growlist']['PDF'])) {
             $growlist = [];
 
+            if ($_POST['Growlist']['species_status'] != -1) {
+                $post_status = $_POST['Growlist']['species_status'];
+            } else {
+                $post_status = NULL;
+            }
+
             $i = 1;
             foreach (get_terms('groups', array('hide_empty' => false,)) as $group) {
 
-                $args = array(
-                    'post_type' => 'species',
-                    'order' => 'ASC',
-                    'orderby' => 'title',
-                    'posts_per_page' => -1,
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'groups',
-                            'field' => 'slug',
-                            'terms' => $group->slug
+                if ($post_status) {
+                    $args = array(
+                        'post_type' => 'species',
+                        'order' => 'ASC',
+                        'orderby' => 'title',
+                        'posts_per_page' => -1,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'groups',
+                                'field' => 'slug',
+                                'terms' => $group->slug
+                            ),
+                        ),
+                        'meta_query' => array(
+                            array(
+                                'key' => 'species_state',
+                                'value' => $post_status,
+                                'compare' => '='
+                            )
                         )
-                    )
-                );
+                    );
+                } else {
+                    $args = array(
+                        'post_type' => 'species',
+                        'order' => 'ASC',
+                        'orderby' => 'title',
+                        'posts_per_page' => -1,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'groups',
+                                'field' => 'slug',
+                                'terms' => $group->slug
+                            )
+                        )
+                    );
+                }
 
                 $species = new WP_Query($args);
                 if ($species->have_posts()) {

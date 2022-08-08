@@ -8,7 +8,7 @@
   Author URI: https://www.k3e.pl/
   Text Domain:
   Domain Path:
-  Version: 0.1.6
+  Version: 0.1.7
  */
 require_once 'cpt/species.php';
 require_once 'cpt/plugin_taxonomy.php';
