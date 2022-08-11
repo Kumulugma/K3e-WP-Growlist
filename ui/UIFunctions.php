@@ -103,9 +103,9 @@ function manuallyPackPhotos() {
 
                                     $ctx1 = new ImagickDraw();
                                     $ctx1->setFillColor('#3e3c3c');
-                                    $ctx1->setFontSize(100);
+                                    $ctx1->setFontSize(70);
 
-                                    $metrics1 = $image->queryFontMetrics($ctx1, get_the_title(get_the_ID()));
+                                    $metrics1 = $image->queryFontMetrics($ctx1, str_replace("&#8217;", "'", str_replace("&#8211;", "-",html_entity_decode(get_the_title(get_the_ID())))));
 
                                     $ctx2 = new ImagickDraw();
                                     $ctx2->setFillColor('#454545');
