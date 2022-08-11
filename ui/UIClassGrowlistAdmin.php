@@ -74,6 +74,15 @@ class UIClassGrowlistAdmin {
                     'growlist_pdf_content'
             );
 
+            add_submenu_page(
+                    'growlist',
+                    __('Albumy', 'k3e'),
+                    __('Albumy', 'k3e'),
+                    'manage_options',
+                    'growlist_photos',
+                    'growlist_photos_content'
+            );
+
             /* Dostępne pozycje
               2 – Dashboard
               4 – Separator
@@ -100,6 +109,7 @@ class UIClassGrowlistAdmin {
         UIClassGrowlistAdmin::GeneratePDF();
         UIClassGrowlistAdmin::GenerateCSV();
         UIClassGrowlistAdmin::IconInTaxonomy();
+        UIClassGrowlistAdmin::PhotoPackages();
 
         UIClassGrowlistAdmin::AlterTableList();
 
@@ -139,6 +149,11 @@ class UIClassGrowlistAdmin {
         function growlist_pdf_content() {
 
             include plugin_dir_path(__FILE__) . 'templates/growlist/pdf.php';
+        }
+
+        function growlist_photos_content() {
+
+            include plugin_dir_path(__FILE__) . 'templates/growlist/photos.php';
         }
 
     }
@@ -535,6 +550,54 @@ class UIClassGrowlistAdmin {
 
     }
 
+    public static function PhotoPackages() {
+        if (isset($_POST['PhotoAlbum']['checksum'])) {
+            if (!empty($_POST['PhotoAlbum']['start_date'])) {
+                $start_date = $_POST['PhotoAlbum']['start_date'];
+
+                $query_images_args = array(
+                    'post_type' => 'attachment',
+                    'post_mime_type' => 'image',
+                    'post_status' => 'inherit',
+                    'posts_per_page' => - 1,
+                    'date_query' => array(
+                        array(
+                            'after' => $start_date,
+                            'before' => date('Y-m-d H:i:s'),
+                            'inclusive' => true,
+                        ),
+                    ),
+                );
+
+                $query_images = new WP_Query($query_images_args);
+
+                $post_id = wp_insert_post(array(
+                    'post_type' => 'photo_album',
+                    'post_title' => 'Album zdjęć od ' . $start_date,
+                    'post_status' => 'publish',
+                    'comment_status' => 'closed', // if you prefer
+                    'ping_status' => 'closed', // if you prefer
+                ));
+
+                if ($post_id) {
+                    // insert post meta
+                    add_post_meta($post_id, 'ready_photos', 0);
+                    add_post_meta($post_id, 'package_photos', $query_images->found_posts);
+                    add_post_meta($post_id, 'start_date', $start_date);
+                }
+            }
+
+
+
+            if (isset($_POST['PhotoAlbum']['pack'])) {
+                manuallyPackPhotos();
+            }
+
+            wp_redirect('admin.php?page=' . $_GET['page']);
+        }
+    }
+
+    
     public static function IconInTaxonomy() {
 
         add_action('groups_add_form_fields', 'groups_add_term_fields');

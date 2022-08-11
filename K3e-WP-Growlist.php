@@ -12,6 +12,8 @@
  */
 require_once 'cpt/species.php';
 require_once 'cpt/plugin_taxonomy.php';
+require_once 'cpt/photo_album.php';
+require_once 'cron/growlist_photo_albums.php';
 
 add_action('init', 'k3e_growlist_plugin_init');
 
