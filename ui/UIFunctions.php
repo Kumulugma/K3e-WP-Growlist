@@ -64,7 +64,7 @@ function manuallyPackPhotos() {
                                 $attachment = get_attached_file(get_the_ID());
                                 $source_image = $attachment;
                                 $image_sizes = getimagesize($source_image);
-                                if ($image_sizes[0] > 1900 && $image_sizes[0] < 2000) {
+                                if ($image_sizes[0] > 1900 && fileComplete($source_image)) {
                                     $destination_image = $source_image;
                                     $destination_extension = substr($destination_image, -3);
                                     $destination_image = substr($destination_image, 0, -4) . "-package." . $destination_extension;
@@ -213,4 +213,15 @@ function createZipAttachment($filename) {
     $attach_id = wp_insert_post($attr);
     add_post_meta($attach_id, '_wp_attached_file', substr(wp_upload_dir()['subdir'], 1) . '/' . sanitize_title($filename) . '.zip');
     add_post_meta(get_the_ID(), 'photo_package', $attach_id);
+}
+
+
+function fileComplete($file_path)
+{
+    $file = fopen($file_path, 'r');
+    if (0 !== fseek($file, -2, SEEK_END) || "\xFF\xD9" !== fread($file, 2)) {
+        fclose($file);
+        return FALSE;
+    }
+    return true;
 }
