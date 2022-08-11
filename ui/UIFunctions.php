@@ -64,7 +64,7 @@ function manuallyPackPhotos() {
                                 $attachment = get_attached_file(get_the_ID());
                                 $source_image = $attachment;
                                 $image_sizes = getimagesize($source_image);
-                                if ($image_sizes[0] > 1900 && $image_sizes[0] > 2500) {
+                                if ($image_sizes[0] > 1900 && $image_sizes[0] < 2000) {
                                     $destination_image = $source_image;
                                     $destination_extension = substr($destination_image, -3);
                                     $destination_image = substr($destination_image, 0, -4) . "-package." . $destination_extension;
@@ -80,7 +80,7 @@ function manuallyPackPhotos() {
                                             'x' => 0,
                                             'y' => 40,
                                             'h' => 300,
-                                            'w' => 2500,
+                                            'w' => 2000,
                                         ];
                                     } else {
                                         $rect = [
