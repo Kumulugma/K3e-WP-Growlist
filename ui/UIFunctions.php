@@ -141,7 +141,7 @@ function manuallyPackPhotos() {
                                             $offset1['x'],
                                             $offset1['y'],
                                             0,
-                                            get_the_title(get_the_ID()));
+                                            str_replace("&#8217;", "'", str_replace("&#8211;", "-",html_entity_decode(get_the_title(get_the_ID())))));
                                     $image->writeimage($destination_image);
 
                                     //Wyświetlenie w przypadku naprawy
