@@ -573,7 +573,7 @@ class UIClassGrowlistAdmin {
 
                 $post_id = wp_insert_post(array(
                     'post_type' => 'photo_album',
-                    'post_title' => 'Album zdjęć od ' . $start_date,
+                    'post_title' => 'Album zdjęć od ' . $start_date . ' do ' . date('Y-m-d'),
                     'post_status' => 'publish',
                     'comment_status' => 'closed', // if you prefer
                     'ping_status' => 'closed', // if you prefer
