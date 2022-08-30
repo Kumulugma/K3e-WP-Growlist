@@ -18,7 +18,7 @@ function manuallyPackPhotos() {
 
     $limit = 30;
     $counter = 0;
-
+   
     $args = array(
         'post_type' => 'photo_album',
         'order' => 'DESC',
@@ -64,10 +64,13 @@ function manuallyPackPhotos() {
                                 $attachment = get_attached_file(get_the_ID());
                                 $source_image = $attachment;
                                 $image_sizes = getimagesize($source_image);
-                                if ($image_sizes[0] > 1900 && fileComplete($source_image)) {
-                                    $destination_image = $source_image;
-                                    $destination_extension = substr($destination_image, -3);
-                                    $destination_image = substr($destination_image, 0, -4) . "-package." . $destination_extension;
+                                $destination_image = $source_image;
+                                $destination_extension = substr($destination_image, -3);
+                                $destination_image = substr($destination_image, 0, -4) . "-package." . $destination_extension;
+                                echo " test ";
+                                echo fileComplete($source_image);
+                                if ($image_sizes[0] > 1900 && (fileComplete($source_image) || $destination_extension == 'png')) {
+                                    echo " start ";
                                     copy($source_image, $destination_image);
 
                                     /* Create some objects */
@@ -105,7 +108,7 @@ function manuallyPackPhotos() {
                                     $ctx1->setFillColor('#3e3c3c');
                                     $ctx1->setFontSize(70);
 
-                                    $metrics1 = $image->queryFontMetrics($ctx1, str_replace("&#8217;", "'", str_replace("&#8211;", "-",html_entity_decode(get_the_title(get_the_ID())))));
+                                    $metrics1 = $image->queryFontMetrics($ctx1, str_replace("&#8217;", "'", str_replace("&#8211;", "-", html_entity_decode(get_the_title(get_the_ID())))));
 
                                     $ctx2 = new ImagickDraw();
                                     $ctx2->setFillColor('#454545');
@@ -141,7 +144,7 @@ function manuallyPackPhotos() {
                                             $offset1['x'],
                                             $offset1['y'],
                                             0,
-                                            str_replace("&#8217;", "'", str_replace("&#8211;", "-",html_entity_decode(get_the_title(get_the_ID())))));
+                                            str_replace("&#8217;", "'", str_replace("&#8211;", "-", html_entity_decode(get_the_title(get_the_ID())))));
                                     $image->writeimage($destination_image);
 
                                     //Wyświetlenie w przypadku naprawy
@@ -215,9 +218,7 @@ function createZipAttachment($filename) {
     add_post_meta(get_the_ID(), 'photo_package', $attach_id);
 }
 
-
-function fileComplete($file_path)
-{
+function fileComplete($file_path) {
     $file = fopen($file_path, 'r');
     if (0 !== fseek($file, -2, SEEK_END) || "\xFF\xD9" !== fread($file, 2)) {
         fclose($file);
