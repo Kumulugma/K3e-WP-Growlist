@@ -54,14 +54,8 @@
                                                 case 2:
                                                     echo __('Wysiew', 'k3e');
                                                     break;
-                                                case 3:
-                                                    echo __('Leci', 'k3e');
-                                                    break;
                                                 case 4:
                                                     echo __('Nie przetrwał', 'k3e');
-                                                    break;
-                                                case 5:
-                                                    echo __('Ponownie poszukiwany', 'k3e');
                                                     break;
                                             }
                                             ?>

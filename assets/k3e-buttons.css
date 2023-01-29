@@ -1,0 +1,27 @@
+
+.button-danger{
+    color:#b12222 !important;
+    border-color:#b12222 !important;
+    background:#f7f6f6 !important;
+    vertical-align:top
+}
+
+.button-danger:hover{
+    background:#f0f0f1 !important;
+    border-color:#780a0a !important;
+    color:#780a0a !important;
+}
+.button-danger:focus{
+    background:#f7f6f6 !important;
+    border-color:#c43535 !important;
+    color:#780a0a !important;
+    box-shadow:0 0 0 1px #c43535 !important;
+    outline:2px solid transparent;
+    outline-offset:0
+}
+.button-danger:active{
+    background:#f7f6f6 !important;
+    border-color:#948c8c !important;
+    box-shadow:none
+}
+

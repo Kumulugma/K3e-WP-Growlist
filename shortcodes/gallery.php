@@ -14,7 +14,7 @@ function k3e_growlist_gallery_shortcode($atts) {
                     'title' => get_post_meta($item, '_wp_attachment_image_alt', TRUE),
                     'lightbox' => "image-".$atts['id'],
                     'src' => wp_get_attachment_image_url( $item, 'blog' ),
-                    'thumb' => wp_get_attachment_image_url( $item, 'big-icons' )
+                    'thumb' => wp_get_attachment_image_url( $item, 'lightbox' )
                 ];
             }
         }

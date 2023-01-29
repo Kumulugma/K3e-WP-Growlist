@@ -1,0 +1,17 @@
+.k3e_box{
+    display: block !important;
+}
+
+.k3e_field{
+    display: block !important;
+}
+
+.k3e_field label{
+    width: 200px !important;
+    display: inline-block;
+}
+
+.k3e_field input[type=text],.k3e_field select,.k3e_field textarea{
+    width: 80%;
+}
+

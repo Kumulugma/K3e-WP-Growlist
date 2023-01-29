@@ -1,4 +1,4 @@
-<div class="wrap" id="configuration-page">
+<div class="wrap" id="K3eGrowlist">
     <h1 class="wp-heading-inline">
         <?php esc_html_e('Listy CSV', 'k3e'); ?>
     </h1>
@@ -8,32 +8,28 @@
         <div id="dashboard-widgets" class="metabox-holder">
             <div class="postbox-container" style="width:100%;">
                 <div class="card" style="max-width: none; margin:2px">
-                    <div class="k3e_box">
-                        <style scoped>
-                            .k3e_box{
-                                display: grid;
-                                grid-template-columns: max-content 1fr;
-                                grid-row-gap: 10px;
-                                grid-column-gap: 20px;
-                            }
-                            .k3e_field{
-                                display: contents;
-                            }
-                        </style>
+                    <div class="section">
                         <form method="post" action="admin.php?page=growlist_export&save=form">
-                            <p class="meta-options k3e_field">
-                                <label for="k3e_document_export_name"><?= __('Nazwa dokumentu', 'k3e') ?></label>
-                                <input id="k3e_document_export_name" type="text" name="Growlist[document_export_name]" value='<?= __('Lista roślin ', 'k3e') . date('Y-m-d H:i:s') ?>'>
-                            </p>
-                            <div  style="display: block;">
-                                <input type='hidden' name="Growlist[CSV]" value="<?= md5(rand(0, 255)) ?>"/>
-                                <button class="button button-primary"  type="submit">Wygeneruj</button>
+                            <div>
+                                <div id="header">
+                                    <h2><?= __('Konfiguracja dokumentu', 'k3e') ?></h2>
+                                </div>
+                                <div class="box">
+                                    <div class="input">
+                                        <label for="k3e_document_export_name"><?= __('Nazwa dokumentu', 'k3e') ?></label>
+                                        <input id="k3e_document_export_name" type="text" name="Growlist[document_export_name]" value='<?= __('Lista roślin ', 'k3e') . date('Y-m-d H:i:s') ?>'>
+                                    </div>
+                                    <div class="save">
+                                        <input type='hidden' name="Growlist[CSV]" value="<?= md5(rand(0, 255)) ?>"/>
+                                        <button class="button button-primary"  type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> Wygeneruj</button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
                     <hr>
-                    <h2><?= __('Wygenerowane dokumenty', 'k3e') ?></h2>
-                    <div class="k3e_box">
+                    <h2 class="h5"><?= __('Wygenerowane dokumenty', 'k3e') ?></h2>
+                    <div class="documents">
                         <?php
                         $args = array(
                             'post_type' => 'attachment',
@@ -50,31 +46,34 @@
 
                         $files = new WP_Query($args);
                         ?>
-                        <table id="growlist" class="display" style="width:100%" data-counter="<?= $files->found_posts ?>">
+                        <table id="files" class="table" data-counter="<?= $files->found_posts ?>">
                             <thead>
                                 <tr>
-                                    <th style="text-align: left;"><?= __('Lp.', 'k3e') ?></th>
-                                    <th style="text-align: left;"><?= __('Dokument', 'k3e') ?></th>
+                                    <th style="text-align: left; width: 20px;" scope="col"><?= __('Lp.', 'k3e') ?></th>
+                                    <th style="text-align: left;" scope="col"><?= __('Dokument', 'k3e') ?></th>
+                                    <th style="text-align: left;" scope="col"><?= __('Akcje', 'k3e') ?></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if ($files->have_posts()) { ?>
                                     <?php $i = 1; ?>
                                     <?php while ($files->have_posts()) : $files->the_post(); ?>
-                                        <tr>
-                                            <td><?= $i ?></td>
+                                        <tr id="row_<?= get_the_ID() ?>" data-nonce='<?= wp_create_nonce('k3e-export-nonce') ?>'>
+                                            <td scope="row"><?= $i ?></td>
                                             <td><a href="<?= wp_get_attachment_url(get_the_ID()) ?>" style="text-decoration: none;" download><?= get_the_title() ?></a></td>
+                                            <td><button data-id="<?= get_the_ID() ?>" class="button button-danger btn-remove"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
                                         </tr>
                                         <?php $i++; ?>
                                     <?php endwhile; ?>
                                 <?php } else { ?>
-                                <td colspan="2" style="text-align: center;"><?= __('Brak wspisów', 'k3e') ?></td>
+                                <td colspan="3" style="text-align: center;"><?= __('Brak wspisów', 'k3e') ?></td>
                             <?php } ?>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th style="text-align: left;"><?= __('Lp.', 'k3e') ?></th>
                                     <th style="text-align: left;"><?= __('Dokument', 'k3e') ?></th>
+                                    <th style="text-align: left;" scope="col"><?= __('Akcje', 'k3e') ?></th>
                                 </tr>
                             </tfoot>
                         </table>

@@ -128,20 +128,12 @@
                                 <td style="border-bottom: 1px solid #c3c4c7;"><?= $correct->found_posts ?></td>
                             </tr>
                             <tr>
-                                <td style="border-bottom: 1px solid #c3c4c7;"><?= __('W locie', 'k3e') ?></td>
-                                <td style="border-bottom: 1px solid #c3c4c7;"><?= $in_flight->found_posts ?></td>
-                            </tr>
-                            <tr>
                                 <td style="border-bottom: 1px solid #c3c4c7;"><?= __('Wysianych', 'k3e') ?></td>
                                 <td style="border-bottom: 1px solid #c3c4c7;"><?= $sown->found_posts ?></td>
                             </tr>
                             <tr>
                                 <td style="border-bottom: 1px solid #c3c4c7;"><?= __('Utraconych', 'k3e') ?></td>
                                 <td style="border-bottom: 1px solid #c3c4c7;"><?= $lost->found_posts + $renew->found_posts ?></td>
-                            </tr>
-                            <tr>
-                                <td style="border-bottom: 1px solid #c3c4c7;"><?= __('W poszukiwaniu', 'k3e') ?></td>
-                                <td style="border-bottom: 1px solid #c3c4c7;"><?= $renew->found_posts ?></td>
                             </tr>
                             <tr>
                                 <td style="border-bottom: 1px solid #c3c4c7;"><?= __('Bez miniatury', 'k3e') ?></td>

@@ -19,7 +19,6 @@ $args = array(
             <th scope="col"><?= __('Lp.', 'k3e') ?></th>
             <th scope="col"><?= __('Kod', 'k3e') ?></th>
             <th scope="col"><?= __('Gatunek', 'k3e') ?></th>
-            <th scope="col"><?= __('Komentarz', 'k3e') ?></th>
         </tr>
     </thead>
     <tbody>
@@ -34,7 +33,6 @@ $args = array(
                     <th scope="row"><?= $i ?></th>
                     <td><small><a href="<?= get_permalink(get_the_ID()) ?>"><?= get_post_meta(get_the_ID(), "species_code", true) ?></a></small></td>
                     <td><a href="<?= get_permalink(get_the_ID()) ?>"><small><?= get_the_title() ?></small> <small><?= get_post_meta(get_the_ID(), "species_name", true) ?></small></a></td>
-                    <td><small><?= get_post_meta(get_the_ID(), "species_comment", true) ?></small></td>
                 </tr>
                 <?php
                 $i++;
@@ -42,7 +40,7 @@ $args = array(
         else:
             ?>
             <tr>
-                <th colspan="4" class="text-center"><?= __('Lista jest pusta', 'k3e') ?></th>
+                <th colspan="3" class="text-center"><?= __('Lista jest pusta', 'k3e') ?></th>
             </tr>
         <?php
         endif;

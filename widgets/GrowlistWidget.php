@@ -4,24 +4,8 @@ class GrowlistWidget {
 
     public static function run() {
 
-        self::SeedsDashboardBox();
         self::SownDashboardBox();
         self::InFlightDashboardBox();
-    }
-
-    public static function SeedsDashboardBox() {
-        add_action('wp_dashboard_setup', 'seeds_dashboard_widget');
-
-        function seeds_dashboard_widget() {
-            global $wp_meta_boxes;
-
-            wp_add_dashboard_widget('seeds_help_widget', 'Lista nasion', 'seeds_dashboard');
-        }
-
-        function seeds_dashboard() {
-            include plugin_dir_path(__FILE__) . 'templates/seeds.php';
-        }
-
     }
 
     public static function SownDashboardBox() {

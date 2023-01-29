@@ -66,9 +66,8 @@ $content = '<table border="1" style="width:100%;">';
 
 $content .= '<thead>';
 $content .= '<tr>';
-$content .= '<td style="width: 5%;"><b>Lp.</b></td>';
-$content .= '<td style="width: 5%;"><b>Kod</b></td>';
-$content .= '<td style="width: 25%;"><b>Gatunek</b></td>';
+
+$content .= '<td style="width: 35%;"><b>Gatunek</b></td>';
 $content .= '<td style="width: 15%;"><b>Grupa</b></td>';
 $content .= '<td style="width: 13%;"><b>Status</b></td>';
 $content .= '<td style="width: 20%;"><b>Komentarz</b></td>';
@@ -81,9 +80,7 @@ $growlist = json_decode(get_option('_pdf_growlist'));
 
 foreach ($growlist as $k => $item) {
     $content .= '<tr>';
-    $content .= '<td style="width: 5%;">' . $item->i . '</td>';
-    $content .= '<td style="width: 5%;">' . $item->code . '</td>';
-    $content .= '<td style="width: 25%;">' . $item->name . ' <small>' . $item->mininame . '</small></td>';
+    $content .= '<td style="width: 35%;">' . $item->name . '<br><small>' . $item->mininame . '</small><br><small>'.$item->code.'</small></td>';
     $content .= '<td style="width: 15%;">' . $item->group . '</td>';
     $content .= '<td style="width: 13%;">' . $item->state . '</td>';
     $content .= '<td style="width: 20%;"><small>' . $item->comment . '</small></td>';
@@ -124,6 +121,7 @@ $attach_id = wp_insert_post($attr);
 
 add_post_meta($attach_id, '_wp_attached_file', substr(wp_upload_dir()['subdir'], 1) . '/' . sanitize_title($filename) . '.pdf');
 add_post_meta($attach_id, '_growlist_document', $filename);
+add_post_meta($attach_id, '_document_comment', $_POST['Growlist']['document_comment']);
 //print_r($attach_id); /* ID is successfuly given, but DOES not show up in Media. Even tried omoitting the $post_id, even though it is totallay valid */
 //============================================================+
 // END OF FILE

@@ -7,35 +7,6 @@ class UIClassGrowlistAdmin {
         add_action('admin_menu', 'growlist_menu');
 
         function growlist_menu() {
-            add_menu_page(
-                    __('Lista roślin', 'k3e'), //Title
-                    __('Lista roślin', 'k3e'), //Name
-                    'manage_options',
-                    'growlist',
-                    'growlist_content',
-                    'dashicons-list-view',
-                    6
-            );
-
-            add_menu_page(
-                    __('Nadmiarowe', 'k3e'), //Title
-                    __('Nadmiarowe', 'k3e'), //Name
-                    'manage_options',
-                    'spare',
-                    'spare_content',
-                    'dashicons-products',
-                    7
-            );
-
-            add_menu_page(
-                    __('Nasiona', 'k3e'), //Title
-                    __('Nasiona', 'k3e'), //Name
-                    'manage_options',
-                    'seedlist',
-                    'seedlist_content',
-                    'dashicons-email-alt2',
-                    7
-            );
 
             add_menu_page(
                     __('Poszukiwane', 'k3e'), //Title
@@ -48,7 +19,16 @@ class UIClassGrowlistAdmin {
             );
 
             add_submenu_page(
+                    'edit.php?post_type=species',
+                    __('Lista roślin', 'k3e'),
+                    __('Lista roślin', 'k3e'),
+                    'manage_options',
                     'growlist',
+                    'growlist_content'
+            );
+
+            add_submenu_page(
+                    'edit.php?post_type=species',
                     __('Statystyki', 'k3e'),
                     __('Statystyki', 'k3e'),
                     'manage_options',
@@ -57,7 +37,7 @@ class UIClassGrowlistAdmin {
             );
 
             add_submenu_page(
-                    'growlist',
+                    'edit.php?post_type=species',
                     __('Eksport danych', 'k3e'),
                     __('Eksport danych', 'k3e'),
                     'manage_options',
@@ -66,7 +46,7 @@ class UIClassGrowlistAdmin {
             );
 
             add_submenu_page(
-                    'growlist',
+                    'edit.php?post_type=species',
                     __('PDF', 'k3e'),
                     __('PDF', 'k3e'),
                     'manage_options',
@@ -75,7 +55,7 @@ class UIClassGrowlistAdmin {
             );
 
             add_submenu_page(
-                    'growlist',
+                    'edit.php?post_type=species',
                     __('Albumy', 'k3e'),
                     __('Albumy', 'k3e'),
                     'manage_options',
@@ -103,8 +83,6 @@ class UIClassGrowlistAdmin {
 
         UIClassGrowlistAdmin::GrowlistBox();
         UIClassGrowlistAdmin::GrowlistPhotos();
-        UIClassGrowlistAdmin::GrowlistSpare();
-        UIClassGrowlistAdmin::GrowlistSeeds();
         UIClassGrowlistAdmin::Wishlist();
         UIClassGrowlistAdmin::GeneratePDF();
         UIClassGrowlistAdmin::GenerateCSV();
@@ -112,6 +90,44 @@ class UIClassGrowlistAdmin {
         UIClassGrowlistAdmin::PhotoPackages();
 
         UIClassGrowlistAdmin::AlterTableList();
+
+        UIClassGrowlistAdmin::ajaxFunctions();
+
+        add_action('admin_enqueue_scripts', 'k3e_growlist_admin_enqueue');
+
+        function k3e_growlist_admin_enqueue() {
+            wp_enqueue_style('k3e', plugin_dir_url(__FILE__) . '../assets/k3e.css');
+
+            $screen = get_current_screen();
+
+            if ('species_page_growlist_photos' === $screen->base && $_GET['page'] === 'growlist_photos') {
+                wp_enqueue_style('K3e-Growlist-Photos', plugin_dir_url(__FILE__) . '../assets/k3e-growlist-photos.css');
+                wp_enqueue_style('K3e-Buttons', plugin_dir_url(__FILE__) . '../assets/k3e-buttons.css');
+                wp_enqueue_style('K3e-Table', plugin_dir_url(__FILE__) . '../assets/k3e-table.css');
+                wp_enqueue_style('Font-Awesome', plugin_dir_url(__FILE__) . "../node_modules/font-awesome/css/font-awesome.min.css");
+                wp_register_script('K3e-Growlist-Photos', plugin_dir_url(__FILE__) . '../assets/k3e-growlist-photos.js', array('jquery'), '0.1');
+                wp_localize_script('K3e-Growlist-Photos', 'myAjax', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('ajax-nonce')));
+                wp_enqueue_script('K3e-Growlist-Photos');
+            }
+            if ('species_page_growlist_export' === $screen->base && $_GET['page'] === 'growlist_export') {
+                wp_enqueue_style('K3e-Growlist-Export', plugin_dir_url(__FILE__) . '../assets/k3e-growlist-export.css');
+                wp_enqueue_style('K3e-Buttons', plugin_dir_url(__FILE__) . '../assets/k3e-buttons.css');
+                wp_enqueue_style('K3e-Table', plugin_dir_url(__FILE__) . '../assets/k3e-table.css');
+                wp_enqueue_style('Font-Awesome', plugin_dir_url(__FILE__) . "../node_modules/font-awesome/css/font-awesome.min.css");
+                wp_register_script('K3e-Growlist-Export', plugin_dir_url(__FILE__) . '../assets/k3e-growlist-export.js', array('jquery'), '0.1');
+                wp_localize_script('K3e-Growlist-Export', 'myAjax', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('ajax-nonce')));
+                wp_enqueue_script('K3e-Growlist-Export');
+            }
+            if ('species_page_growlist_pdf' === $screen->base && $_GET['page'] === 'growlist_pdf') {
+                wp_enqueue_style('K3e-Growlist-Pdf', plugin_dir_url(__FILE__) . '../assets/k3e-growlist-pdf.css');
+                wp_enqueue_style('K3e-Buttons', plugin_dir_url(__FILE__) . '../assets/k3e-buttons.css');
+                wp_enqueue_style('K3e-Table', plugin_dir_url(__FILE__) . '../assets/k3e-table.css');
+                wp_enqueue_style('Font-Awesome', plugin_dir_url(__FILE__) . "../node_modules/font-awesome/css/font-awesome.min.css");
+                wp_register_script('K3e-Growlist-Pdf', plugin_dir_url(__FILE__) . '../assets/k3e-growlist-pdf.js', array('jquery'), '0.1');
+                wp_localize_script('K3e-Growlist-Pdf', 'myAjax', array('ajaxurl' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('ajax-nonce')));
+                wp_enqueue_script('K3e-Growlist-Pdf');
+            }
+        }
 
         function growlist_content() {
 
@@ -258,71 +274,6 @@ class UIClassGrowlistAdmin {
 
     }
 
-    public static function GrowlistSpare() {
-
-        add_action("add_meta_boxes", "growlist_spare_meta_box");
-
-        function growlist_spare_meta_box() {
-            add_meta_box("growlist-spare-meta-box", "Dostępność nadmiarowych", "growlist_spare_box_markup", "species", "normal", "high", null);
-        }
-
-        function growlist_spare_box_markup($object) {
-            include plugin_dir_path(__FILE__) . 'templates/spare/form.php';
-        }
-
-        function k3e_growlist_spare_save_meta_box($post_id) {
-            if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
-                return;
-            if ($parent_id = wp_is_post_revision($post_id)) {
-                $post_id = $parent_id;
-            }
-            $fields = [
-                'species_spare',
-                'species_spare_price',
-            ];
-            foreach ($fields as $field) {
-                if (array_key_exists($field, $_POST)) {
-                    update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
-                }
-            }
-        }
-
-        add_action('save_post', 'k3e_growlist_spare_save_meta_box');
-    }
-
-    public static function GrowlistSeeds() {
-
-        add_action("add_meta_boxes", "growlist_seeds_meta_box");
-
-        function growlist_seeds_meta_box() {
-            add_meta_box("growlist-seeds-meta-box", "Dostępność nasion", "growlist_seeds_box_markup", "species", "normal", "high", null);
-        }
-
-        function growlist_seeds_box_markup($object) {
-            include plugin_dir_path(__FILE__) . 'templates/seeds/form.php';
-        }
-
-        function k3e_growlist_seeds_save_meta_box($post_id) {
-            if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
-                return;
-            if ($parent_id = wp_is_post_revision($post_id)) {
-                $post_id = $parent_id;
-            }
-            $fields = [
-                'species_seeds',
-                'species_seeds_amount',
-                'species_seeds_price',
-            ];
-            foreach ($fields as $field) {
-                if (array_key_exists($field, $_POST)) {
-                    update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
-                }
-            }
-        }
-
-        add_action('save_post', 'k3e_growlist_seeds_save_meta_box');
-    }
-
     public static function Wishlist() {
         if (isset($_POST['Growlist'])) {
             $wishlist = ($_POST['Growlist']['wishlist']);
@@ -400,14 +351,8 @@ class UIClassGrowlistAdmin {
                             case 2:
                                 $growlist[$i]['state'] = __('Wysiew', 'k3e');
                                 break;
-                            case 3:
-                                $growlist[$i]['state'] = __('Leci', 'k3e');
-                                break;
                             case 4:
                                 $growlist[$i]['state'] = __('Nie przetrwał', 'k3e');
-                                break;
-                            case 5:
-                                $growlist[$i]['state'] = __('Ponownie poszukiwany', 'k3e');
                                 break;
                         }
                         $growlist[$i]['comment'] = get_post_meta(get_the_ID(), 'species_comment', true) ?: '';
@@ -467,14 +412,8 @@ class UIClassGrowlistAdmin {
                             case 2:
                                 $growlist[$i]['state'] = __('Wysiew', 'k3e');
                                 break;
-                            case 3:
-                                $growlist[$i]['state'] = __('Leci', 'k3e');
-                                break;
                             case 4:
                                 $growlist[$i]['state'] = __('Nie przetrwał', 'k3e');
-                                break;
-                            case 5:
-                                $growlist[$i]['state'] = __('Ponownie poszukiwany', 'k3e');
                                 break;
                         }
                         $growlist[$i]['comment'] = get_post_meta(get_the_ID(), 'species_comment', true) ?: '';
@@ -509,9 +448,9 @@ class UIClassGrowlistAdmin {
         add_filter('manage_species_posts_columns', 'add_new_columns');
 
         function add_new_columns($columns) {
-            $column_meta = array('species_name' => __('Dalsza nazwa', 'k3e'));
-            $columns = array_slice($columns, 0, 2, true) + $column_meta + array_slice($columns, 2, NULL, true);
             $column_meta = array('species_state' => __('Status okazu', 'k3e'));
+            $columns = array_slice($columns, 0, 2, true) + $column_meta + array_slice($columns, 2, NULL, true);
+            $column_meta = array('species_name' => __('Szczegóły', 'k3e'));
             $columns = array_slice($columns, 0, 2, true) + $column_meta + array_slice($columns, 2, NULL, true);
             return $columns;
         }
@@ -523,7 +462,7 @@ class UIClassGrowlistAdmin {
             switch ($column) {
                 case 'species_name':
                     $metaData = get_post_meta($post->ID, 'species_name', true);
-                    echo $metaData;
+                    echo "<small>" . $metaData . "</small>";
                     break;
                 case 'species_state':
                     $metaData = get_post_meta($post->ID, 'species_state', true);
@@ -534,18 +473,42 @@ class UIClassGrowlistAdmin {
                         case '2':
                             echo __('Wysiew', 'k3e');
                             break;
-                        case '3':
-                            echo __('Leci', 'k3e');
-                            break;
                         case '4':
                             echo __('Nie przetrwał', 'k3e');
-                            break;
-                        case '5':
-                            echo __('Ponownie poszukiwany', 'k3e');
                             break;
                     }
                     break;
             }
+        }
+
+        add_filter('manage_species_posts_columns', function ($columns) {
+            unset($columns['date']);
+            return $columns;
+        });
+
+        add_filter('posts_join', 'species_search_join');
+
+        function species_search_join($join) {
+            global $pagenow, $wpdb;
+
+            if (is_admin() && 'edit.php' === $pagenow && 'species' === $_GET['post_type'] && !empty($_GET['s'])) {
+                $join .= 'LEFT JOIN ' . $wpdb->postmeta . ' ON ' . $wpdb->posts . '.ID = ' . $wpdb->postmeta . '.post_id ';
+            }
+            return $join;
+        }
+
+        add_filter('posts_where', 'species_search_where');
+
+        function species_search_where($where) {
+            global $pagenow, $wpdb;
+
+            if (is_admin() && 'edit.php' === $pagenow && 'species' === $_GET['post_type'] && !empty($_GET['s'])) {
+                $where = preg_replace(
+                        "/\(\s*" . $wpdb->posts . ".post_title\s+LIKE\s*(\'[^\']+\')\s*\)/",
+                        "(" . $wpdb->posts . ".post_title LIKE $1) OR (" . $wpdb->postmeta . ".meta_value LIKE $1)", $where);
+                $where .= " GROUP BY {$wpdb->posts}.id";
+            }
+            return $where;
         }
 
     }
@@ -554,6 +517,7 @@ class UIClassGrowlistAdmin {
         if (isset($_POST['PhotoAlbum']['checksum'])) {
             if (!empty($_POST['PhotoAlbum']['start_date'])) {
                 $start_date = $_POST['PhotoAlbum']['start_date'];
+                $comment = $_POST['PhotoAlbum']['comment'];
 
                 $query_images_args = array(
                     'post_type' => 'attachment',
@@ -584,6 +548,7 @@ class UIClassGrowlistAdmin {
                     add_post_meta($post_id, 'ready_photos', 0);
                     add_post_meta($post_id, 'package_photos', $query_images->found_posts);
                     add_post_meta($post_id, 'start_date', $start_date);
+                    add_post_meta($post_id, 'document_comment', $comment);
                 }
             }
 
@@ -597,7 +562,6 @@ class UIClassGrowlistAdmin {
         }
     }
 
-    
     public static function IconInTaxonomy() {
 
         add_action('groups_add_form_fields', 'groups_add_term_fields');
@@ -636,6 +600,216 @@ class UIClassGrowlistAdmin {
                     'k3e_groups_img',
                     absint($_POST['k3e_groups_img'])
             );
+        }
+
+    }
+
+    public static function ajaxFunctions() {
+
+        function k3e_export_no_logged() {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+            die();
+        }
+
+        add_action("wp_ajax_k3e_export_remove", "k3e_export_remove");
+        add_action("wp_ajax_nopriv_k3e_export_remove", "k3e_export_no_logged");
+
+        function k3e_export_remove() {
+
+            if (!wp_verify_nonce($_REQUEST['nonce'], "k3e-export-nonce")) {
+                exit("Brak dostępu");
+            }
+
+            $comment = delete_post_meta($_REQUEST["id"], "_growlist_export");
+
+            if ($comment === false) {
+                $result['type'] = "error";
+            } else {
+                $result['type'] = "success";
+            }
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $result = json_encode($result);
+                echo $result;
+            } else {
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+            }
+
+            die();
+        }
+
+        //Photos
+        add_action("wp_ajax_k3e_photos_comment", "k3e_photos_comment");
+        add_action("wp_ajax_nopriv_k3e_photos_comment", "k3e_photos_no_logged");
+
+        function k3e_photos_comment() {
+
+            if (!wp_verify_nonce($_REQUEST['nonce'], "k3e-photos-nonce")) {
+                exit("Brak dostępu");
+            }
+
+            $comment = get_post_meta($_REQUEST["id"], "document_comment", true);
+            $newComment = update_post_meta($_REQUEST["id"], "document_comment", $_REQUEST["comment"]);
+
+            if ($newComment === false) {
+                $result['type'] = "error";
+                $result['comment'] = $comment;
+            } else {
+                $result['type'] = "success";
+                $result['comment'] = $_REQUEST["comment"];
+            }
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $result = json_encode($result);
+                echo $result;
+            } else {
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+            }
+
+            die();
+        }
+
+        function k3e_photos_no_logged() {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+            die();
+        }
+
+        add_action("wp_ajax_k3e_photos_old_comment", "k3e_photos_old_comment");
+        add_action("wp_ajax_nopriv_k3e_photos_old_comment", "k3e_photos_no_logged");
+
+        function k3e_photos_old_comment() {
+
+            if (!wp_verify_nonce($_REQUEST['nonce'], "k3e-photos-nonce")) {
+                exit("Brak dostępu");
+            }
+
+            $comment = get_post_meta($_REQUEST["id"], "document_comment", true);
+
+            $result['type'] = "success";
+            $result['comment'] = $comment;
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $result = json_encode($result);
+                echo $result;
+            } else {
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+            }
+
+            die();
+        }
+
+        add_action("wp_ajax_k3e_photos_remove", "k3e_photos_remove");
+        add_action("wp_ajax_nopriv_photos_remove", "k3e_photos_no_logged");
+
+        function k3e_photos_remove() {
+
+            if (!wp_verify_nonce($_REQUEST['nonce'], "k3e-photos-nonce")) {
+                exit("Brak dostępu");
+            }
+
+            $comment = wp_delete_post($_REQUEST["id"], "photo_album");
+
+            if ($comment === false) {
+                $result['type'] = "error";
+            } else {
+                $result['type'] = "success";
+            }
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $result = json_encode($result);
+                echo $result;
+            } else {
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+            }
+
+            die();
+        }
+
+        //Pdf
+        add_action("wp_ajax_k3e_list_comment", "k3e_list_comment");
+        add_action("wp_ajax_nopriv_k3e_list_comment", "k3e_list_no_logged");
+
+        function k3e_list_comment() {
+
+            if (!wp_verify_nonce($_REQUEST['nonce'], "k3e-list-nonce")) {
+                exit("Brak dostępu");
+            }
+
+            $comment = get_post_meta($_REQUEST["id"], "document_comment", true);
+            $newComment = update_post_meta($_REQUEST["id"], "document_comment", $_REQUEST["comment"]);
+
+            if ($newComment === false) {
+                $result['type'] = "error";
+                $result['comment'] = $comment;
+            } else {
+                $result['type'] = "success";
+                $result['comment'] = $_REQUEST["comment"];
+            }
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $result = json_encode($result);
+                echo $result;
+            } else {
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+            }
+
+            die();
+        }
+
+        function k3e_list_no_logged() {
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+            die();
+        }
+
+        add_action("wp_ajax_k3e_list_old_comment", "k3e_list_old_comment");
+        add_action("wp_ajax_nopriv_k3e_list_old_comment", "k3e_list_no_logged");
+
+        function k3e_list_old_comment() {
+
+            if (!wp_verify_nonce($_REQUEST['nonce'], "k3e-list-nonce")) {
+                exit("Brak dostępu");
+            }
+
+            $comment = get_post_meta($_REQUEST["id"], "document_comment", true);
+
+            $result['type'] = "success";
+            $result['comment'] = $comment;
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $result = json_encode($result);
+                echo $result;
+            } else {
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+            }
+
+            die();
+        }
+
+        add_action("wp_ajax_k3e_list_remove", "k3e_list_remove");
+        add_action("wp_ajax_nopriv_list_remove", "k3e_list_no_logged");
+
+        function k3e_list_remove() {
+
+            if (!wp_verify_nonce($_REQUEST['nonce'], "k3e-list-nonce")) {
+                exit("Brak dostępu");
+            }
+
+            $comment = wp_delete_post($_REQUEST["id"], "photo_album");
+
+            if ($comment === false) {
+                $result['type'] = "error";
+            } else {
+                $result['type'] = "success";
+            }
+
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                $result = json_encode($result);
+                echo $result;
+            } else {
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+            }
+
+            die();
         }
 
     }

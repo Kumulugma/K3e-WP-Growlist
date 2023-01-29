@@ -1,0 +1,62 @@
+#K3eGrowlist .box {
+    background-color: #f0f0f1;
+    display: inline-block;
+    margin-right: 2em;
+    padding: 1em;
+    border-radius: 25px;
+    margin-top: .8em;
+}
+
+#K3eGrowlist .box div {
+    display: inline-block;
+}
+
+#K3eGrowlist .box .input {
+    position: relative;
+    top: 3px;
+}
+
+#K3eGrowlist .box .input label {
+    position: relative;
+    top: -4px;
+}
+
+#K3eGrowlist .box .input input {
+    width: 300px;
+}
+
+
+#K3eGrowlist .box .save {
+    position: relative;
+    top: -3px;
+}
+
+#K3eGrowlist .box button {
+    margin-left: 20px;
+}
+
+#K3eGrowlist .box #document_name {
+    margin-left: 20px;
+    position: relative;
+    top: -4px;
+}
+
+#K3eGrowlist .section {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-row-gap: 10px;
+    grid-column-gap: 20px;
+}
+
+#K3eGrowlist .documents {
+    display: block;
+}
+
+#K3eGrowlist .table {
+    width: 100%;
+}
+
+#K3eGrowlist #header h2
+{
+    display: inline-block;
+}

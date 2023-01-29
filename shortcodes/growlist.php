@@ -20,6 +20,11 @@ function k3e_growlist_shortcode() {
             plugin_dir_url(__FILE__) . '../assets/k3e-tooltip.js',
             array('jquery', 'Popper', 'Tippy')
     );
+    
+    wp_enqueue_style(
+            'K3e-Growlist',
+            plugin_dir_url(__FILE__) . '../assets/k3e-growlist.css'
+    );
     ob_start();
     include plugin_dir_path(__FILE__) . 'templates/growlist.php';
     $string = ob_get_clean();

@@ -1,0 +1,11 @@
+.table-simple{
+    font-size: .8em;
+}
+
+.table-simple td{
+    padding: 0;
+}
+
+.species-content {
+    min-height: 120px;
+}

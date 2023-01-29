@@ -37,8 +37,6 @@ function k3e_growlist_plugin_init() {
         UIClassGrowlistFront::run();
         require_once 'shortcodes/growlist.php';
         require_once 'shortcodes/wishlist.php';
-        require_once 'shortcodes/spare.php';
-        require_once 'shortcodes/seeds.php';
         require_once 'shortcodes/sows.php';
         require_once 'shortcodes/gallery.php';
     }

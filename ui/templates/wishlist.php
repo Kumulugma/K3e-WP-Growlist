@@ -27,9 +27,6 @@
                         </style>
                         <form method="post" action="admin.php?page=wishlist&save=form">
                             <div class="meta-options k3e_field" style="display: block;">
-                                <label for="k3e_wishlist"><?= __('Poszukiwane', 'k3e') ?></label>
-                            </div>
-                            <div class="meta-options k3e_field" style="display: block;">
                                 <?php
                                 $args = [
                                     'media_buttons' => false, // This setting removes the media button.
